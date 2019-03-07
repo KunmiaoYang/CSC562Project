@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Project: LOD</title>
+
+  <link type="text/css" rel="stylesheet" href="index.css">
+</head>
+
+<body onload="CULLING.main();">
+  <table id="statistics">
+    <tr>
+      <td class="info">Count of triangles: </td>
+      <td id="triangles" class="info info_value">0</td>
+      <td class="info">Frame time: </td>
+      <td id="time" class="info">0</td>
+      <td class="info info_value">ms</td>
+      <!-- <td class="info">Incoming: </td><td id="incoming" class="info info_value">0</td> -->
+    </tr>
+    <tr>
+      <td id="posX" class="info">x: 0.0</td>
+      <td id="posY" class="info">y: 0.0</td>
+      <td id="posZ" class="info">z: 0.0</td>
+    </tr>
+    <tr>
+      <td class="info">Culling method: </td>
+      <td id="culling" class="info info_value">No culling</td>
+      <td class="info">Hierarchy: </td>
+      <td id="hierarchy" class="info">false</td>
+    </tr>
+  </table>
+  <canvas id="myWebGLCanvas" width="1024" height="1024"></canvas>
+  <canvas id="topCanvas" width="320" height="320"></canvas>
+  <!-- <img id="title" class="intro"/> -->
+  <!-- <img id="play_game" class="play" onclick="GAME.play()"/> -->
+  <!-- <img id="pause_game" class="play" onclick="GAME.pause()"/> -->
+  <p>
+    <b>To control this program, use the following key:</b><br>
+    a — translate view left along view X<br>
+    d — translate view right along view X<br>
+    w — translate view forward along view Z<br>
+    s — translate view backward along view Z<br>
+    q — translate view up along view Y<br>
+    e — translate view down along view Y<br>
+    A — rotate view left around view Y (yaw)<br>
+    D — rotate view right around view Y (yaw)<br>
+    W — rotate view forward around view X (pitch)<br>
+    S — rotate view backward around view X (pitch)<br>
+    Q — rotate view forward around view Z (roll)<br>
+    E — rotate view backward around view Z (roll)<br>
+    1 — Render without culling<br>
+    2 — Render with frustum culling<br>
+    3 — Render with portal culling<br>
+    h — toggle hierarchical culling<br>
+    j — Zoom in top down view<br>
+    k — Zoom out top down view<br>
+    m — toggle standard models<br>
+    c — toggle ceiling<br>
+  </p>
+  <button class="test" onclick="GAME.test()">Test</button>
+  <table class="config">
+    <tr>
+      <td></td>
+      <td><input type="checkbox" id="UseLight" onchange="RASTERIZE.refresh()" checked>Use Light</td>
+      <td></td>
+      <td><button onclick="RASTERIZE.refresh()">Set Parameters</button></td>
+    </tr>
+    <tr>
+      <th>Canvas</th>
+    </tr>
+    <tr>
+      <td>Width</td>
+      <td><input type="number" id="Width" value="1024"></td>
+      <td>Height</td>
+      <td><input type="number" id="Height" value="1024"></td>
+    </tr>
+    <tr>
+      <th>Window</th>
+    </tr>
+    <tr>
+      <td>Left</td>
+      <td><input type="number" id="WLeft" value="-0.01"></td>
+      <td>Right</td>
+      <td><input type="number" id="WRight" value="0.01"></td>
+    </tr>
+    <tr>
+      <td>Bottom</td>
+      <td><input type="number" id="WBottom" value="-0.01"></td>
+      <td>Top</td>
+      <td><input type="number" id="WTop" value="0.01"></td>
+    </tr>
+    <tr>
+      <td>Near</td>
+      <td><input type="number" id="WNear" value="0.01"></td>
+      <td>Far</td>
+      <td><input type="number" id="WFar" value="100"></td>
+    </tr>
+  </table>
+  <label class="config" for="LightsURL">Lights JSON URL</label>
+  <input class="config" type="text" id="LightsURL"
+    value="https://kunmiaoyang.github.io/MissileCommand/model/lights.json" style="width: 400px;">
+
+  <!--load sounds-->
+  <audio id="sound_intro" loop controls>
+    <source src="sound/intro.mp3" type="audio/mp3">
+  </audio>
+  <audio id="sound_play" loop controls>
+    <source src="sound/play.mp3" type="audio/mp3">
+  </audio>
+  <audio id="sound_mission_complete" loop controls>
+    <source src="sound/mission_complete.mp3" type="audio/mp3">
+  </audio>
+  <audio id="sound_game_over" controls>
+    <source src="sound/game_over.mp3" type="audio/mp3">
+  </audio>
+  <audio id="sound_UFO" controls>
+    <source src="sound/UFO.mp3" type="audio/mp3">
+  </audio>
+  <audio id="sound_walking" loop controls>
+    <source src="sound/walking.mp3" type="audio/wav">
+  </audio>
+  <audio id="sound_collision" controls>
+    <source src="sound/ouch.mp3" type="audio/wav">
+  </audio>
+  <!--load scripts-->
+  <script type="text/javascript" src="jquery-3.2.1.min.js"></script>
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="gl-matrix-min.js"></script>
+  <script type="text/javascript" src="dom.js"></script>
+  <script type="text/javascript" src="option.js"></script>
+  <script type="text/javascript" src="url.js"></script>
+  <script type="text/javascript" src="frustum.js"></script>
+  <script type="text/javascript" src="lights.js"></script>
+  <script type="text/javascript" src="image.js"></script>
+  <script type="text/javascript" src="models.js"></script>
+  <script type="text/javascript" src="JSONModel.js"></script>
+  <script type="text/javascript" src="SkechupModel.js"></script>
+  <script type="text/javascript" src="sound.js"></script>
+  <script type="text/javascript" src="shader.js"></script>
+  <script type="text/javascript" src="events.js"></script>
+  <script type="text/javascript" src="camera.js"></script>
+  <script type="text/javascript" src="rooms.js"></script>
+  <script type="text/javascript" src="culling.js"></script>
+  <script type="text/javascript" src="rasterize.js"></script>
+  <script type="text/javascript" src="animation.js"></script>
+</body>
+
+</html>

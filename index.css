@@ -1,0 +1,107 @@
+.config {
+    visibility: hidden;
+}
+
+#myWebGLCanvas {
+    z-index: -1;
+    border: 2px solid;
+    border-color: #00FF00;
+}
+
+#topCanvas {
+    position: absolute;
+    left: 712px;
+    z-index: 1;
+    border: 2px solid;
+    border-color: #00FF00;
+}
+
+#play_game {
+    width: 167px;
+    height: 62px;
+    position: absolute;
+    left: 180px;
+    z-index: 2;
+    visibility: inherit;
+}
+
+#play_game.play {
+    content: url("img/play.png");
+    top: 340px;
+}
+
+#play_game.play:hover {
+    content: url("img/play_highlight.png");
+    top: 340px;
+}
+
+#play_game.next {
+    content: url("img/nextlevel.png");
+    top: 280px;
+}
+
+#play_game.next:hover {
+    content: url("img/nextlevel_highlight.png");
+    top: 280px;
+}
+
+#pause_game {
+    position: absolute;
+    height: 15px;
+    width: auto;
+}
+
+#pause_game.play {
+    content: url(img/pause.png);
+    top: 15px;
+    left: 490px;
+}
+
+#pause_game.pause {
+    content: url("img/continue.png");
+    top: 15px;
+    left: 490px;
+}
+
+#statistics {
+    position: absolute;
+    left: 30px;
+    top: 10px;
+    z-index: 1;
+}
+
+.info_value {
+    width: 100px;
+}
+
+.info {
+    font-weight:bold;
+    color: #00FF00;
+    font-family: "Agency FB";
+}
+
+#title {
+    position: absolute;
+    z-index: 2;
+    height: auto;
+    width: 520px;
+    left: 0;
+}
+
+#title.intro {
+    content: url("img/title.png");
+    top: 65px;
+}
+
+#title.over {
+    content: url("img/gameOver.png");
+    top: 150px;
+}
+
+audio {
+    visibility: hidden;
+}
+
+.test {
+    visibility: hidden;
+}
