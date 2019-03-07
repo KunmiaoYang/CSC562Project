@@ -243,3 +243,4 @@ var CREATE_SHADER = function (canvas, option) {
 
 var SHADER = CREATE_SHADER(DOM.canvas, {id: 0, clear: [0.0, 0.0, 0.0, 1.0]});
 var TOP_SHADER = CREATE_SHADER(DOM.topCanvas, {id: 1, clear: [0.0, 0.0, 0.0, 0.6]});
+TOP_SHADER.hide = false;

@@ -4,6 +4,7 @@ var RASTERIZE = function () {
         frameId: 0,
         frameTime: [],
         renderTriangles: function (models = MODELS.array, shader = SHADER, camera = CAMERA, enableCulling = false) {    // render the loaded model
+            if (shader.hide) return;
             var gl = shader.gl;
             gl.lineWidth(1.5);
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT); // clear frame/depth buffers
