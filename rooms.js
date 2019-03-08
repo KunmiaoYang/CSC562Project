@@ -214,7 +214,7 @@ var ROOMS = function () {
                 )) {
                     continue;
                 }
-                passedModels.push(models[i]);
+                passedModels.push(LOD.select(models[i]));
             }
             return passedModels;
         },
@@ -330,7 +330,8 @@ var ROOMS = function () {
                         indexI + pro.tMatrix[14]))
                 )
                 room.furniture.push(model);
-                room.array.push(model);
+                // room.array.push(model);
+                room.array.unshift(model);
                 ROOMS.furniture.array.push(model);
                 map.cellMap[indexI][indexJ].array.push(model);
             }
@@ -367,12 +368,6 @@ var ROOMS = function () {
                 JSON_MODEL.loadTriangleSets(shaders, JSON_MODEL.getJSONFile(URL.triangles, 'triangleset'));
             ROOMS.prototype.furniture.sphere =
                 JSON_MODEL.loadSpheres(shaders, JSON_MODEL.getJSONFile(URL.sphere, 'sphere'));
-            ROOMS.prototype.furniture.sphere.lod = {
-                array: [
-                    JSON_MODEL.loadSpheres(shaders, JSON_MODEL.getJSONFile(URL.sphere, 'sphere'), 7, 14),
-                    JSON_MODEL.loadSpheres(shaders, JSON_MODEL.getJSONFile(URL.sphere, 'sphere'), 3, 6),
-                ],
-            };
             // Add animation to sphere
             for (var i = 0; i < ROOMS.prototype.furniture.sphere.length; i++) {
                 ROOMS.prototype.furniture.sphere[i].animation = sphere.animation;

@@ -108,6 +108,13 @@ var MODELS = function () {
             let newModel = shallowClone(prototype);
             newModel.rMatrix = rMatrix;
             newModel.tMatrix = tMatrix;
+            if (prototype.lod) {
+                newModel.lod = {
+                    array: [],
+                };
+                for (var i = 0; i < prototype.lod.array.length; i++)
+                    newModel.lod.array[i] = this.copyModel(prototype.lod.array[i], rMatrix, tMatrix);
+            }
             return newModel;
         },
         addDummyTexture: function (shader, model) {

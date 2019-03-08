@@ -152,7 +152,17 @@ var JSON_MODEL = function () {
                 inputSpheres[i].b = inputSpheres[i].r;
                 inputSpheres[i].c = inputSpheres[i].r;
             }
-            return JSON_MODEL.loadEllipsoids(shaders, inputSpheres, nLatitude, nLongitude);
+            var models = JSON_MODEL.loadEllipsoids(shaders, inputSpheres, nLatitude, nLongitude);
+            var simpModels = [
+                JSON_MODEL.loadEllipsoids(shaders, inputSpheres, parseInt(nLatitude / 2), parseInt(nLongitude / 2)),
+                JSON_MODEL.loadEllipsoids(shaders, inputSpheres, parseInt(nLatitude / 4), parseInt(nLongitude / 4)),
+            ];
+            for (var i = 0, n = models.length; i < n; i++) {
+                models[i].lod = {
+                    array: [simpModels[0][i], simpModels[1][i]],
+                };
+            }
+            return models;
         },
         getJSONFile: function (url, descr) {
             try {
