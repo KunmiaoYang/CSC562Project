@@ -29,7 +29,9 @@ var ROOMS = function () {
         ],
         "furniture": [
             [0, 0, 0, "sphere", 2],
-            [1, 4, 4, "triangleset", 0],
+            [0, 1, 5, "sphere", 2],
+            [0, 2, 10, "sphere", 2],
+            // [1, 4, 4, "triangleset", 0],
             // [0, 3, 2, "standard", 0],
             // [1, 0, 4, "standard", 1],
         ],

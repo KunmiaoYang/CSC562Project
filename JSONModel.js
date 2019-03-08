@@ -144,7 +144,7 @@ var JSON_MODEL = function () {
                 return ellipsoids;
             } // end if ellipsoids found
         },
-        loadSpheres: function (shaders, inputSpheres, nLatitude = 15, nLongitude = 30) {
+        loadSpheres: function (shaders, inputSpheres, nLatitude = 12, nLongitude = 24) {
             for (var i = 0, n = inputSpheres.length; i < n; i++) {
                 if (inputSpheres[i].textureMode === undefined)
                     inputSpheres[i].textureMode = inputSpheres[i].texture ? 1 : 0;
