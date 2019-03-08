@@ -93,7 +93,8 @@ var RASTERIZE = function () {
                 models = CULLING.frustumCulling(shaders, CAMERA.getFrustum(), MODELS.array);
             }
             RASTERIZE.renderTriangles(models, SHADER, CAMERA, true);
-            RASTERIZE.renderTriangles(models, TOP_SHADER, TOP_CAMERA, true);
+            // RASTERIZE.renderTriangles(models, TOP_SHADER, TOP_CAMERA, true);
+            RASTERIZE.renderTriangles(models, TOP_SHADER, TOP_SHADER.camera, true);
         },
         portalCulling: function () {
             ROOMS.rVisited = [];
@@ -105,6 +106,7 @@ var RASTERIZE = function () {
                 ROOMS.getRoom(CAMERA.xyz), ROOMS.rVisited, ROOMS.pVisited);
             RASTERIZE.renderTriangles(models, SHADER, CAMERA, true);
             RASTERIZE.renderTriangles(models, TOP_SHADER, TOP_CAMERA, true);
+            RASTERIZE.renderTriangles(models, TOP_SHADER, TOP_SHADER.camera, true);
         },
         setupOnLoad: function () {   // set up on load event for canvas
             $('canvas#myWebGLCanvas').on('loadData', function () {
