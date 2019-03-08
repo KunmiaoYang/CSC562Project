@@ -151,6 +151,7 @@ var CULLING = function () {
             TOP_SHADER.setupWebGL(); // set up the webGL environment
             TOP_CAMERA.initCamera(); // Initialize camera
             CAMERA.initCamera(); // Initialize camera
+            MODEL_CAMERA.initCamera(); // Initialize camera
             ROOMS.load([SHADER, TOP_SHADER]);
             EVENTS.setupEvent();
             RASTERIZE.setupOnLoad();

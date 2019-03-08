@@ -144,3 +144,7 @@ CAMERA.translateCamera = function (vec) {
     $('#posZ').text('z: ' + pos[2].toFixed(3));
 };
 
+var MODEL_CAMERA = CREATE_CAMERA(
+    vec3.fromValues(1.5, 0.5, 1.5),  // default camera position in world space
+    vec3.fromValues(0, 0, 1),  // default camera look at direction in world space
+    vec3.fromValues(0, 1, 0)); // default camera view up direction in world space
