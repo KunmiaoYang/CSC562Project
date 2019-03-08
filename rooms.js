@@ -15,16 +15,29 @@ var ROOMS = function () {
             ["s", 0, 0, 0, 0, 0, "s", 1, 1, 1, 1, 1, "s"],
             ["s", 0, 0, 0, 0, 0, "p", 1, 1, 1, 1, 1, "s"],
             ["s", 0, 0, 0, 0, 0, "s", 1, 1, 1, 1, 1, "s"],
-            ["s", "s", "s", "p", "s", "s", "s", "s", "p", "s", "p", "s", "s"],
-            ["s", 2, 2, 2, 2, 2, "s", 3, 3, 3, 3, 3, "s"],
-            ["s", 2, 2, 2, 2, 2, "p", 3, 3, 3, 3, 3, "s"],
-            ["s", 2, 2, 2, 2, 2, "s", 3, 3, 3, 3, 3, "s"],
-            ["s", 2, 2, 2, 2, 2, "p", 3, 3, 3, 3, 3, "s"],
-            ["s", 2, 2, 2, 2, 2, "s", 3, 3, 3, 3, 3, "s"],
-            ["s", "s", "s", "s", "s", "s", "s", "s", "s", "s", "s", "s", "s"]
+            ["s", 0, 0, 0, 0, 0, "s", "s", "p", "s", "p", "s", "s"],
+            ["s", 0, 0, 0, 0, 0, "s", 2, 2, 2, 2, 2, "s"],
+            ["s", 0, 0, 0, 0, 0, "p", 2, 2, 2, 2, 2, "s"],
+            ["s", 0, 0, 0, 0, 0, "s", 2, 2, 2, 2, 2, "s"],
+            ["s", 0, 0, 0, 0, 0, "p", 2, 2, 2, 2, 2, "s"],
+            ["s", 0, 0, 0, 0, 0, "s", 2, 2, 2, 2, 2, "s"],
+            ["s", 0, 0, 0, 0, 0, "s", "s", "s", "s", "s", "s", "s"],
+            ["s", 0, 0, 0, 0, 0, "s"],
+            ["s", 0, 0, 0, 0, 0, "s"],
+            ["s", 0, 0, 0, 0, 0, "s"],
+            ["s", "s", "s", "s", "s", "s", "s"],
         ],
-        "furniture": [[0, 0, 0, "sphere", 0], [1, 4, 4, "triangleset", 0]]
+        "furniture": [
+            [0, 0, 0, "sphere", 0], 
+            [1, 4, 4, "triangleset", 0], 
+            [0, 3, 2, "standard", 0],
+            [1, 0, 4, "standard", 1],
+        ],
     };
+    var additionalFurniture = [
+        [0, 3, 2, "standard", 0],
+        [1, 0, 4, "standard", 1],
+    ];
     var triangles = {
         floor: {
             "material": {
@@ -63,10 +76,6 @@ var ROOMS = function () {
             "triangles": [[0, 1, 2], [2, 3, 0]]
         }
     };
-    var additionalFurniture = [
-        [0, 3, 2, "standard", 0],
-        [1, 0, 4, "standard", 1],
-    ];
     var sphere = {
         animation: {
             spin: 0.004, axis: vec3.fromValues(0, 1, 0),
@@ -311,7 +320,7 @@ var ROOMS = function () {
                 var pro = prototypes[data[i][4]];
                 var indexI = data[i][2] + room.first[0],
                     indexJ = data[i][1] + room.first[1];
-                if (pro === undefined || 
+                if (pro === undefined ||
                     data[i][1] < 0 || data[i][2] < 0 ||
                     indexI > room.last[0] || indexJ > room.last[1]) continue;
                 var model = MODELS.copyModel(pro,
@@ -387,9 +396,8 @@ var ROOMS = function () {
             // MODELS.array.splice(3,1);
             // MODELS.array = MODELS.array.concat(ROOMS.prototype.furniture.sphere);
             // this.ready = true;
-            if (false) {
+            if (true) {
                 var data = testRooms;
-                data.furniture = data.furniture.concat(additionalFurniture); // add standard models
                 ROOMS.data = data;
                 ROOMS.ready = true;
                 $('canvas#myWebGLCanvas').trigger('loadData');
@@ -398,7 +406,6 @@ var ROOMS = function () {
 
                 // load topology
                 $.getJSON(URL.rooms, function (data) {
-                    data.furniture = data.furniture.concat(additionalFurniture); // add standard models
                     ROOMS.data = data;
 
                     ROOMS.ready = true;
