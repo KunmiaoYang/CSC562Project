@@ -1,5 +1,10 @@
 var EVENTS = function () {
     var currentlyPressedKeys = [];
+    var changeModel = function (models, offset) {
+        var size = models.array.length;
+        if (size) models.selectId = (models.selectId + size + offset) % size;
+        CAMERA.updateModelCamera();
+    };
     return {
         DELTA_TRANS: 0.05,
         DELTA_ROT: 0.08,
@@ -37,18 +42,18 @@ var EVENTS = function () {
                 case "D":    // D — rotate view right around view Y (yaw)
                     CAMERA.rotateCamera(-EVENTS.DELTA_ROT, vec3.fromValues(0, 1, 0));
                     return;
-                // case "W":    // W — rotate view forward around view X (pitch)
-                //     CAMERA.rotateCamera(EVENTS.DELTA_ROT, vec3.fromValues(1, 0, 0));
-                //     return;
-                // case "S":    // S — rotate view backward around view X (pitch)
-                //     CAMERA.rotateCamera(-EVENTS.DELTA_ROT, vec3.fromValues(1, 0, 0));
-                //     return;
-                // case "Q":    // Q — rotate view forward around view Z (roll)
-                //     CAMERA.rotateCamera(-EVENTS.DELTA_ROT, vec3.fromValues(0, 0, 1));
-                //     return;
-                // case "E":    // E — rotate view backward around view Z (roll)
-                //     CAMERA.rotateCamera(EVENTS.DELTA_ROT, vec3.fromValues(0, 0, 1));
-                //     return;
+                case "W":    // W — rotate view forward around view X (pitch)
+                    CAMERA.rotateCamera(EVENTS.DELTA_ROT, vec3.fromValues(1, 0, 0));
+                    return;
+                case "S":    // S — rotate view backward around view X (pitch)
+                    CAMERA.rotateCamera(-EVENTS.DELTA_ROT, vec3.fromValues(1, 0, 0));
+                    return;
+                case "Q":    // Q — rotate view forward around view Z (roll)
+                    CAMERA.rotateCamera(-EVENTS.DELTA_ROT, vec3.fromValues(0, 0, 1));
+                    return;
+                case "E":    // E — rotate view backward around view Z (roll)
+                    CAMERA.rotateCamera(EVENTS.DELTA_ROT, vec3.fromValues(0, 0, 1));
+                    return;
                 case "1":    // 1 — Render without culling
                     ANIMATION.update = RASTERIZE.noCulling;
                     $('#culling').text('No culling');
@@ -71,9 +76,9 @@ var EVENTS = function () {
                 case "k":    // k — Zoom out 
                     TOP_CAMERA.zoomCamera(EVENTS.DELTA_TRANS);
                     return;
-                case "m":    // m — toggle standard models
-                    ROOMS.renderStandard = !ROOMS.renderStandard;
-                    return;
+                // case "m":    // m — toggle standard models
+                //     ROOMS.renderStandard = !ROOMS.renderStandard;
+                //     return;
                 case "c":    // c — toggle ceiling
                     ROOMS.renderCeiling = !ROOMS.renderCeiling;
                     return;
@@ -81,6 +86,14 @@ var EVENTS = function () {
                     TOP_SHADER.hide = !TOP_SHADER.hide;
                     if (TOP_SHADER.hide) $('#topCanvas').hide('fade');
                     else $('#topCanvas').show('fade');
+                    return;
+                case "ArrowLeft": // left - select previous furniture
+                    event.preventDefault();
+                    changeModel(ROOMS.furniture, -1);
+                    return;
+                case "ArrowRight": // right - select next furniture
+                    event.preventDefault();
+                    changeModel(ROOMS.furniture, 1);
                     return;
             }
         },

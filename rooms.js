@@ -190,8 +190,12 @@ var ROOMS = function () {
         initialRot: 0,
         rVisited: [],
         pVisited: [],
-        renderStandard: false,
+        renderStandard: true,
         renderCeiling: true,
+        furniture: {
+            array: [],
+            selectId: 0,
+        },
 
         filter: function (models) {
             var passedModels = [];
@@ -319,6 +323,7 @@ var ROOMS = function () {
                 )
                 room.furniture.push(model);
                 room.array.push(model);
+                ROOMS.furniture.array.push(model);
                 map.cellMap[indexI][indexJ].array.push(model);
             }
         },
