@@ -77,7 +77,7 @@ var RASTERIZE = function () {
             var models = ROOMS.filter(MODELS.array);
             RASTERIZE.renderTriangles(models, SHADER);
             // RASTERIZE.renderTriangles(models, TOP_SHADER, TOP_CAMERA);
-            RASTERIZE.renderTriangles(models, TOP_SHADER, MODEL_CAMERA);
+            RASTERIZE.renderTriangles(models, TOP_SHADER, TOP_SHADER.camera);
         },
         frustumCulling: function () {
             var shaders = [SHADER, TOP_SHADER];

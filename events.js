@@ -1,9 +1,17 @@
 var EVENTS = function () {
     var currentlyPressedKeys = [];
+    var renderModelCamera = function () {
+        TOP_SHADER.camera = MODEL_CAMERA;
+        TOP_SHADER.hide = false;
+        $('#topCanvas').show('fade');
+    };
     var changeModel = function (models, offset) {
         var size = models.array.length;
-        if (size) models.selectId = (models.selectId + size + offset) % size;
-        CAMERA.updateModelCamera();
+        if (size) {
+            models.selectId = (models.selectId + size + offset) % size;
+            CAMERA.updateModelCamera();
+            renderModelCamera();
+        }
     };
     return {
         DELTA_TRANS: 0.05,
@@ -66,15 +74,23 @@ var EVENTS = function () {
                     ANIMATION.update = RASTERIZE.portalCulling;
                     $('#culling').text('Portal culling');
                     return;
+                case "9": // 9 — Render model camera
+                    renderModelCamera();
+                    return;
+                case "0": // 0 — Render top down map
+                    TOP_SHADER.camera = TOP_CAMERA;
+                    TOP_SHADER.hide = false;
+                    $('#topCanvas').show('fade');
+                    return;
                 case "h":    // h — toggle hierarchical culling
                     CULLING.hierarchy = !CULLING.hierarchy;
                     $('#hierarchy').text(CULLING.hierarchy);
                     return;
                 case "j":    // j — Zoom in
-                    TOP_CAMERA.zoomCamera(-EVENTS.DELTA_TRANS);
+                    TOP_SHADER.camera.zoomCamera(-EVENTS.DELTA_TRANS);
                     return;
                 case "k":    // k — Zoom out 
-                    TOP_CAMERA.zoomCamera(EVENTS.DELTA_TRANS);
+                    TOP_SHADER.camera.zoomCamera(EVENTS.DELTA_TRANS);
                     return;
                 // case "m":    // m — toggle standard models
                 //     ROOMS.renderStandard = !ROOMS.renderStandard;
