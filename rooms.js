@@ -28,16 +28,12 @@ var ROOMS = function () {
             ["s", "s", "s", "s", "s", "s", "s"],
         ],
         "furniture": [
-            [0, 0, 0, "sphere", 0], 
-            [1, 4, 4, "triangleset", 0], 
-            [0, 3, 2, "standard", 0],
-            [1, 0, 4, "standard", 1],
+            [0, 0, 0, "sphere", 2],
+            [1, 4, 4, "triangleset", 0],
+            // [0, 3, 2, "standard", 0],
+            // [1, 0, 4, "standard", 1],
         ],
     };
-    var additionalFurniture = [
-        [0, 3, 2, "standard", 0],
-        [1, 0, 4, "standard", 1],
-    ];
     var triangles = {
         floor: {
             "material": {
@@ -106,6 +102,9 @@ var ROOMS = function () {
         mark: {
             isStandard: true
         },
+    };
+    var lightModel = {
+        "ambient": [1, 1, 1], "diffuse": [1, 1, 1], "specular": [1, 1, 1]
     };
 
     var createWall = function (i, j, direction, prototype) {
@@ -299,7 +298,7 @@ var ROOMS = function () {
                     0, (room.first[0] + room.last[0]) / 2 + 0.5];
                 room.light = {
                     "x": room.center[0], "y": 1, "z": room.center[2],
-                    "ambient": [1, 1, 1], "diffuse": [1, 1, 1], "specular": [1, 1, 1]
+                    "ambient": lightModel.ambient, "diffuse": lightModel.diffuse, "specular": lightModel.specular
                 };
                 room.array = room.floor
                     .concat(room.ceiling)
@@ -368,28 +367,34 @@ var ROOMS = function () {
                 JSON_MODEL.loadTriangleSets(shaders, JSON_MODEL.getJSONFile(URL.triangles, 'triangleset'));
             ROOMS.prototype.furniture.sphere =
                 JSON_MODEL.loadSpheres(shaders, JSON_MODEL.getJSONFile(URL.sphere, 'sphere'));
+            ROOMS.prototype.furniture.sphere.lod = {
+                array: [
+                    JSON_MODEL.loadSpheres(shaders, JSON_MODEL.getJSONFile(URL.sphere, 'sphere'), 7, 14),
+                    JSON_MODEL.loadSpheres(shaders, JSON_MODEL.getJSONFile(URL.sphere, 'sphere'), 3, 6),
+                ],
+            };
             // Add animation to sphere
             for (var i = 0; i < ROOMS.prototype.furniture.sphere.length; i++) {
                 ROOMS.prototype.furniture.sphere[i].animation = sphere.animation;
             }
 
             // Load standard model prototype
-            SKECHUP_MODEL.loadModel(shaders, URL.cityModel, function (model) {
-                model.material = city.material;
-                model.rMatrix = city.scaleMatrix;
-                model.tMatrix = mat4.fromTranslation(mat4.create(), city.pos);
-                model.animation = city.animation;
-                model.mark = city.mark;
-                ROOMS.prototype.furniture.standard[0] = model;
-            });
-            SKECHUP_MODEL.loadModel(shaders, URL.batteryModel, function (model) {
-                model.material = battery.material;
-                model.rMatrix = battery.scaleMatrix;
-                model.tMatrix = mat4.fromTranslation(mat4.create(), battery.pos);
-                model.animation = battery.animation;
-                model.mark = battery.mark;
-                ROOMS.prototype.furniture.standard[1] = model;
-            });
+            // SKECHUP_MODEL.loadModel(shaders, URL.cityModel, function (model) {
+            //     model.material = city.material;
+            //     model.rMatrix = city.scaleMatrix;
+            //     model.tMatrix = mat4.fromTranslation(mat4.create(), city.pos);
+            //     model.animation = city.animation;
+            //     model.mark = city.mark;
+            //     ROOMS.prototype.furniture.standard[0] = model;
+            // });
+            // SKECHUP_MODEL.loadModel(shaders, URL.batteryModel, function (model) {
+            //     model.material = battery.material;
+            //     model.rMatrix = battery.scaleMatrix;
+            //     model.tMatrix = mat4.fromTranslation(mat4.create(), battery.pos);
+            //     model.animation = battery.animation;
+            //     model.mark = battery.mark;
+            //     ROOMS.prototype.furniture.standard[1] = model;
+            // });
 
             // ****************** TEST ******************
             // MODELS.array.push(ROOMS.prototype.furniture.triangleset[2]);

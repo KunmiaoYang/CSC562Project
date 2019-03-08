@@ -146,6 +146,7 @@ var CULLING = function () {
         },
         main: function () {
             DOM.load(OPTION, CAMERA, URL);   // load the data from html page
+            RASTERIZE.setupOnLoad();
             // LIGHTS.load(); // load in the lights
             SHADER.setupWebGL(); // set up the webGL environment
             TOP_SHADER.setupWebGL(); // set up the webGL environment
@@ -154,7 +155,6 @@ var CULLING = function () {
             MODEL_CAMERA.initCamera(); // Initialize camera
             ROOMS.load([SHADER, TOP_SHADER]);
             EVENTS.setupEvent();
-            RASTERIZE.setupOnLoad();
         },
     };
 }();

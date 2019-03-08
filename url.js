@@ -20,8 +20,8 @@ var URL = function () {
 
             'abe.png': professorAddress + 'abe.png',
             // 'billie.jpg': professorAddress + 'billie.jpg',
-            'earth.png': professorAddress + 'earth.png',
-            // 'glass.gif': professorAddress + 'glass.gif',
+            // 'earth.png': professorAddress + 'earth.png',
+            'glass.gif': professorAddress + 'glass.gif',
             // 'leaf.small.png': professorAddress + 'leaf.small.png',
             // 'retro.jpg': professorAddress + 'retro.jpg',
             // 'rocktile.jpg': professorAddress + 'rocktile.jpg',

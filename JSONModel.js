@@ -1,6 +1,4 @@
 var JSON_MODEL = function () {
-    var nLatitude = 10,
-        nLongitude = 20;
     return {
         loadTriangleSets: function (shaders, inputTriangles) {
             var nShader = shaders.length;
@@ -79,7 +77,7 @@ var JSON_MODEL = function () {
             } // end if triangles found
             return triangleSets;
         },
-        loadEllipsoids: function (shaders, inputEllipsoids) {
+        loadEllipsoids: function (shaders, inputEllipsoids, nLatitude = 15, nLongitude = 30) {
             var nShader = shaders.length;
             // var inputEllipsoids = JSON_MODEL.getJSONFile(URL.ellipsoids, "ellipsoids");
             var ellipsoids = [];
@@ -146,7 +144,7 @@ var JSON_MODEL = function () {
                 return ellipsoids;
             } // end if ellipsoids found
         },
-        loadSpheres: function (shaders, inputSpheres) {
+        loadSpheres: function (shaders, inputSpheres, nLatitude = 15, nLongitude = 30) {
             for (var i = 0, n = inputSpheres.length; i < n; i++) {
                 if (inputSpheres[i].textureMode === undefined)
                     inputSpheres[i].textureMode = inputSpheres[i].texture ? 1 : 0;
@@ -154,7 +152,7 @@ var JSON_MODEL = function () {
                 inputSpheres[i].b = inputSpheres[i].r;
                 inputSpheres[i].c = inputSpheres[i].r;
             }
-            return JSON_MODEL.loadEllipsoids(shaders, inputSpheres);
+            return JSON_MODEL.loadEllipsoids(shaders, inputSpheres, nLatitude, nLongitude);
         },
         getJSONFile: function (url, descr) {
             try {
