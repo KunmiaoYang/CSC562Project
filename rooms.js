@@ -213,6 +213,7 @@ var ROOMS = function () {
 
         filter: function (models) {
             var passedModels = [];
+            var model;
             for (var i = 0, m = models.length; i < m; i++) {
                 if (models[i].mark && (
                     !ROOMS.renderStandard && models[i].mark.isStandard ||
@@ -220,7 +221,8 @@ var ROOMS = function () {
                 )) {
                     continue;
                 }
-                passedModels.push(LOD.filter(models[i]));
+                model = LOD.filter(models[i]);
+                if (model) passedModels.push(model);
             }
             return passedModels;
         },

@@ -3,7 +3,7 @@ var VIEW_UP = vec3.fromValues(0, 1, 0); // default camera view up direction in w
 var CREATE_CAMERA = function (coord, lookAt, viewUp = VIEW_UP, bound = {
     left: -0.01, right: 0.01,
     top: 0.01, bottom: -0.01,
-    near: 0.01, far: 100,
+    near: 0.01, far: 15,
 }) {
     return {
         left: bound.left,
@@ -149,10 +149,8 @@ var CAMERA = CREATE_CAMERA(
 CAMERA.updateModelCamera = function () {
     var model = ROOMS.furniture.array[ROOMS.furniture.selectId];
     if (model !== undefined) {
-        var center = vec3.fromValues(model.tMatrix[12], this.xyz[1], model.tMatrix[14]);
-        var dir = vec3.normalize(vec3.create(), vec3.fromValues(
-            center[0] - this.xyz[0], 0, center[2] - this.xyz[2]));
-        var eye = vec3.scaleAndAdd(vec3.create(), center, dir, -MODEL_CAMERA.dist);
+        var dir = vec3.normalize(vec3.create(), model.fromCamera);
+        var eye = vec3.scaleAndAdd(vec3.create(), model.xyz, dir, -MODEL_CAMERA.dist);
         MODEL_CAMERA.setCamera(eye, dir, VIEW_UP);
     }
 };
@@ -172,14 +170,14 @@ CAMERA.translateCamera = function (vec) {
         this.xyz[i] = pos[i];
     }
 
+    // Select LOD
+    LOD.select(ROOMS.furniture.array);
+
     // Move top camera
     TOP_CAMERA.translateCamera(vec4.transformMat4(vec4.create(), delta, TOP_CAMERA.vMatrix));
 
     // Move model camera
     this.updateModelCamera();
-
-    // Select LOD
-    LOD.select(ROOMS.furniture.array);
 
     // Update heads up display
     $('#posX').text('x: ' + pos[0].toFixed(3));

@@ -11,6 +11,7 @@ var DOM = function() {
         furniturePosX: $('#furniture_posX'),
         furniturePosY: $('#furniture_posY'),
         furniturePosZ: $('#furniture_posZ'),
+        furnitureDist: $('#furniture_dist'),
         lodInfoSelect: $('#lod_info_select'),
 
         load: function(option, camera, url) {

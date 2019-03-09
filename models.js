@@ -118,6 +118,7 @@ var MODELS = function () {
                 for (var i = 0; i < prototype.lod.array.length; i++)
                     newModel.lod.array[i] = this.copyModel(prototype.lod.array[i], rMatrix, tMatrix);
             }
+            newModel.xyz = vec3.fromValues(tMatrix[12], tMatrix[13], tMatrix[14]);
             return newModel;
         },
         addDummyTexture: function (shader, model) {
