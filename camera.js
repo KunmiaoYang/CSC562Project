@@ -3,7 +3,7 @@ var VIEW_UP = vec3.fromValues(0, 1, 0); // default camera view up direction in w
 var CREATE_CAMERA = function (coord, lookAt, viewUp = VIEW_UP, bound = {
     left: -0.01, right: 0.01,
     top: 0.01, bottom: -0.01,
-    near: 0.01, far: 15,
+    near: 0.01, far: 150,
 }) {
     return {
         left: bound.left,
