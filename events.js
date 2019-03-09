@@ -15,6 +15,13 @@ var EVENTS = function () {
             LOD.updateLodInfo(models);
         }
     };
+    var toggleSelection = function (models) {
+        var model = models.array[models.selectId];
+        if (!model || !model.lod) return;
+        if (model.lod.select === LOD.selectByArea) model.lod.select = LOD.selectByRange;
+        else model.lod.select = LOD.selectByArea;
+        LOD.select(models.array);
+    }
     return {
         DELTA_TRANS: 0.05,
         DELTA_ROT: 0.08,
@@ -52,18 +59,18 @@ var EVENTS = function () {
                 case "D":    // D — rotate view right around view Y (yaw)
                     CAMERA.rotateCamera(-EVENTS.DELTA_ROT, vec3.fromValues(0, 1, 0));
                     return;
-                case "W":    // W — rotate view forward around view X (pitch)
-                    CAMERA.rotateCamera(EVENTS.DELTA_ROT, vec3.fromValues(1, 0, 0));
-                    return;
-                case "S":    // S — rotate view backward around view X (pitch)
-                    CAMERA.rotateCamera(-EVENTS.DELTA_ROT, vec3.fromValues(1, 0, 0));
-                    return;
-                case "Q":    // Q — rotate view forward around view Z (roll)
-                    CAMERA.rotateCamera(-EVENTS.DELTA_ROT, vec3.fromValues(0, 0, 1));
-                    return;
-                case "E":    // E — rotate view backward around view Z (roll)
-                    CAMERA.rotateCamera(EVENTS.DELTA_ROT, vec3.fromValues(0, 0, 1));
-                    return;
+                // case "W":    // W — rotate view forward around view X (pitch)
+                //     CAMERA.rotateCamera(EVENTS.DELTA_ROT, vec3.fromValues(1, 0, 0));
+                //     return;
+                // case "S":    // S — rotate view backward around view X (pitch)
+                //     CAMERA.rotateCamera(-EVENTS.DELTA_ROT, vec3.fromValues(1, 0, 0));
+                //     return;
+                // case "Q":    // Q — rotate view forward around view Z (roll)
+                //     CAMERA.rotateCamera(-EVENTS.DELTA_ROT, vec3.fromValues(0, 0, 1));
+                //     return;
+                // case "E":    // E — rotate view backward around view Z (roll)
+                //     CAMERA.rotateCamera(EVENTS.DELTA_ROT, vec3.fromValues(0, 0, 1));
+                //     return;
                 case "1":    // 1 — Render without culling
                     ANIMATION.update = RASTERIZE.noCulling;
                     $('#culling').text('No culling');
@@ -94,6 +101,9 @@ var EVENTS = function () {
                     return;
                 case "k":    // k — Zoom out 
                     TOP_SHADER.camera.zoomCamera(EVENTS.DELTA_TRANS);
+                    return;
+                case "m":    // m — toggle LOD selection
+                    toggleSelection(ROOMS.furniture);
                     return;
                 // case "m":    // m — toggle standard models
                 //     ROOMS.renderStandard = !ROOMS.renderStandard;
