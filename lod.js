@@ -13,11 +13,35 @@ var LOD = function () {
             }
             return -1;
         },
+        updateLodInfo: function (furniture) {
+            DOM.furnitureId.text(furniture.selectId);
+            var model = furniture.array[furniture.selectId];
+            DOM.furniturePosX.text('x: ' + model.tMatrix[12].toFixed(3));
+            DOM.furniturePosY.text('y: ' + model.tMatrix[13].toFixed(3));
+            DOM.furniturePosZ.text('z: ' + model.tMatrix[14].toFixed(3));
+            if (model.lod) {
+                var level = model.lod.level;
+                if (level === undefined || level >= model.lod.array.lenth)
+                    DOM.lodInfoLevel.text('None');
+                else if (level < 0)
+                    DOM.lodInfoLevel.text('Original');
+                else
+                    DOM.lodInfoLevel.text(level);
+
+                if (model.lod.select === LOD.selectByRange)
+                    DOM.lodInfoSelect.text('Range based');
+                else DOM.lodInfoSelect.text('None');
+            } else {
+                DOM.lodInfoLevel.text('Original');
+                DOM.lodInfoSelect.text('None');
+            }
+        },
         select: function (models) {
             for (var i = 0, n = models.length; i < n; i++) {
                 if (!models[i].lod) continue;
                 models[i].lod.level = models[i].lod.select(models[i]);
             }
+            LOD.updateLodInfo(ROOMS.furniture);
         },
         filter: function (model) {
             if (model.lod) {
@@ -27,29 +51,6 @@ var LOD = function () {
                     return model.lod.array[model.lod.level];
             }
             return model;
-        },
-        updateLodInfoLevel: function (model) {
-            var level = model.lod.level;
-            if (level === undefined || level >= model.lod.array.lenth)
-                DOM.lodInfoLevel.text('None');
-            else if (level < 0)
-                DOM.lodInfoLevel.text('Original');
-            else
-                DOM.lodInfoLevel.text(level);
-        },
-        updateLodInfo: function (furniture) {
-            DOM.furnitureId.text(furniture.selectId);
-            var model = furniture.array[furniture.selectId];
-            DOM.furniturePosX.text('x: ' + model.tMatrix[12].toFixed(3));
-            DOM.furniturePosY.text('y: ' + model.tMatrix[13].toFixed(3));
-            DOM.furniturePosZ.text('z: ' + model.tMatrix[14].toFixed(3));
-            if (model.lod) {
-                LOD.updateLodInfoLevel(model);
-
-                if (model.lod.select === LOD.selectByRange)
-                    DOM.lodInfoSelect.text('Range based');
-                else DOM.lodInfoSelect.text('None');
-            }
         },
     };
 }();
