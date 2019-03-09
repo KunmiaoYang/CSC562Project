@@ -180,6 +180,7 @@ CAMERA.translateCamera = function (vec) {
 
     // Select LOD
     LOD.select(ROOMS.furniture.array);
+    LOD.updateLodInfoLevel(ROOMS.furniture.array[ROOMS.furniture.selectId]);
 
     // Update heads up display
     $('#posX').text('x: ' + pos[0].toFixed(3));

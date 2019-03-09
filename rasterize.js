@@ -125,6 +125,7 @@ var RASTERIZE = function () {
                     TOP_SHADER.setupShaders();
                     CAMERA.translateCamera(ROOMS.initialTrans);
                     CAMERA.rotateCamera(ROOMS.initialRot, vec3.fromValues(0, 1, 0));
+                    LOD.updateLodInfo(ROOMS.furniture);
                     // RASTERIZE.renderTriangles(SHADER.gl); // draw the triangles using webGL
                     // ANIMATION.start(RASTERIZE.frustumCulling);
                     ANIMATION.start(RASTERIZE.noCulling);

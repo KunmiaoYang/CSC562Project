@@ -5,6 +5,14 @@ var DOM = function() {
         playButton: $('#play_game'),
         pauseButton: $('#pause_game'),
         title: $('#title'),
+        lodInfo: $('#lod_info'),
+        furnitureId: $('#furniture_id'),
+        lodInfoLevel: $('#lod_info_level'),
+        furniturePosX: $('#furniture_posX'),
+        furniturePosY: $('#furniture_posY'),
+        furniturePosZ: $('#furniture_posZ'),
+        lodInfoSelect: $('#lod_info_select'),
+
         load: function(option, camera, url) {
             var canvas = document.getElementById("myWebGLCanvas"); // create a js canvas
             option.useLight = document.getElementById("UseLight").checked;

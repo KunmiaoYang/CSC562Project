@@ -4,6 +4,7 @@ var EVENTS = function () {
         TOP_SHADER.camera = MODEL_CAMERA;
         TOP_SHADER.hide = false;
         $('#topCanvas').show('fade');
+        DOM.lodInfo.show('fade');
     };
     var changeModel = function (models, offset) {
         var size = models.array.length;
@@ -11,6 +12,7 @@ var EVENTS = function () {
             models.selectId = (models.selectId + size + offset) % size;
             CAMERA.updateModelCamera();
             renderModelCamera();
+            LOD.updateLodInfo(models);
         }
     };
     return {
@@ -50,18 +52,18 @@ var EVENTS = function () {
                 case "D":    // D — rotate view right around view Y (yaw)
                     CAMERA.rotateCamera(-EVENTS.DELTA_ROT, vec3.fromValues(0, 1, 0));
                     return;
-                // case "W":    // W — rotate view forward around view X (pitch)
-                //     CAMERA.rotateCamera(EVENTS.DELTA_ROT, vec3.fromValues(1, 0, 0));
-                //     return;
-                // case "S":    // S — rotate view backward around view X (pitch)
-                //     CAMERA.rotateCamera(-EVENTS.DELTA_ROT, vec3.fromValues(1, 0, 0));
-                //     return;
-                // case "Q":    // Q — rotate view forward around view Z (roll)
-                //     CAMERA.rotateCamera(-EVENTS.DELTA_ROT, vec3.fromValues(0, 0, 1));
-                //     return;
-                // case "E":    // E — rotate view backward around view Z (roll)
-                //     CAMERA.rotateCamera(EVENTS.DELTA_ROT, vec3.fromValues(0, 0, 1));
-                //     return;
+                case "W":    // W — rotate view forward around view X (pitch)
+                    CAMERA.rotateCamera(EVENTS.DELTA_ROT, vec3.fromValues(1, 0, 0));
+                    return;
+                case "S":    // S — rotate view backward around view X (pitch)
+                    CAMERA.rotateCamera(-EVENTS.DELTA_ROT, vec3.fromValues(1, 0, 0));
+                    return;
+                case "Q":    // Q — rotate view forward around view Z (roll)
+                    CAMERA.rotateCamera(-EVENTS.DELTA_ROT, vec3.fromValues(0, 0, 1));
+                    return;
+                case "E":    // E — rotate view backward around view Z (roll)
+                    CAMERA.rotateCamera(EVENTS.DELTA_ROT, vec3.fromValues(0, 0, 1));
+                    return;
                 case "1":    // 1 — Render without culling
                     ANIMATION.update = RASTERIZE.noCulling;
                     $('#culling').text('No culling');
@@ -78,6 +80,7 @@ var EVENTS = function () {
                     renderModelCamera();
                     return;
                 case "0": // 0 — Render top down map
+                    DOM.lodInfo.hide('fade');
                     TOP_SHADER.camera = TOP_CAMERA;
                     TOP_SHADER.hide = false;
                     $('#topCanvas').show('fade');
@@ -100,8 +103,14 @@ var EVENTS = function () {
                     return;
                 case "v":    // v — toggle second view
                     TOP_SHADER.hide = !TOP_SHADER.hide;
-                    if (TOP_SHADER.hide) $('#topCanvas').hide('fade');
-                    else $('#topCanvas').show('fade');
+                    if (TOP_SHADER.hide) {
+                        $('#topCanvas').hide('fade');
+                        DOM.lodInfo.hide('fade');
+                    } else {
+                        $('#topCanvas').show('fade');
+                        if (TOP_SHADER.camera === MODEL_CAMERA)
+                            DOM.lodInfo.show('fade');
+                    }
                     return;
                 case "ArrowLeft": // left - select previous furniture
                     event.preventDefault();

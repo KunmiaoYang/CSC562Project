@@ -67,7 +67,14 @@
     position: absolute;
     left: 30px;
     top: 10px;
-    z-index: 1;
+    z-index: 2;
+}
+
+#lod_info {
+    position: absolute;
+    left: 542px;
+    top: 10px;
+    z-index: 2;
 }
 
 .info_value {

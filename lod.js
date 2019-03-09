@@ -28,5 +28,28 @@ var LOD = function () {
             }
             return model;
         },
+        updateLodInfoLevel: function (model) {
+            var level = model.lod.level;
+            if (level === undefined || level >= model.lod.array.lenth)
+                DOM.lodInfoLevel.text('None');
+            else if (level < 0)
+                DOM.lodInfoLevel.text('Original');
+            else
+                DOM.lodInfoLevel.text(level);
+        },
+        updateLodInfo: function (furniture) {
+            DOM.furnitureId.text(furniture.selectId);
+            var model = furniture.array[furniture.selectId];
+            DOM.furniturePosX.text('x: ' + model.tMatrix[12].toFixed(3));
+            DOM.furniturePosY.text('y: ' + model.tMatrix[13].toFixed(3));
+            DOM.furniturePosZ.text('z: ' + model.tMatrix[14].toFixed(3));
+            if (model.lod) {
+                LOD.updateLodInfoLevel(model);
+
+                if (model.lod.select === LOD.selectByRange)
+                    DOM.lodInfoSelect.text('Range based');
+                else DOM.lodInfoSelect.text('None');
+            }
+        },
     };
 }();
