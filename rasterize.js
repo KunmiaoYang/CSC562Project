@@ -1,5 +1,5 @@
 var RASTERIZE = function () {
-    var SAMPLE_FRAME = 10;
+    var SAMPLE_FRAME = 100;
     return {
         frameId: 0,
         frameTime: [],

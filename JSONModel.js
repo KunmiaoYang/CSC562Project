@@ -153,6 +153,8 @@ var JSON_MODEL = function () {
                 inputSpheres[i].c = inputSpheres[i].r;
             }
             var models = JSON_MODEL.loadEllipsoids(shaders, inputSpheres, nLatitude, nLongitude);
+
+            // Create LOD
             var simpModels = [
                 JSON_MODEL.loadEllipsoids(shaders, inputSpheres, parseInt(nLatitude / 2), parseInt(nLongitude / 2)),
                 JSON_MODEL.loadEllipsoids(shaders, inputSpheres, parseInt(nLatitude / 4), parseInt(nLongitude / 4)),
@@ -160,6 +162,9 @@ var JSON_MODEL = function () {
             for (var i = 0, n = models.length; i < n; i++) {
                 models[i].lod = {
                     array: [simpModels[0][i], simpModels[1][i]],
+                    level: -1,
+                    r: inputSpheres[i].r,
+                    select: LOD.selectByRange,
                 };
             }
             return models;

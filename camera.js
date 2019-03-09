@@ -146,7 +146,7 @@ TOP_SHADER.camera = MODEL_CAMERA;
 var CAMERA = CREATE_CAMERA(
     vec3.fromValues(0.5, 0.5, -0.5),  // default camera position in world space
     vec3.fromValues(0, 0, 1));  // default camera look at direction in world space
-CAMERA.updateModelCamera = function() {
+CAMERA.updateModelCamera = function () {
     var model = ROOMS.furniture.array[ROOMS.furniture.selectId];
     if (model !== undefined) {
         var center = vec3.fromValues(model.tMatrix[12], this.xyz[1], model.tMatrix[14]);
@@ -178,8 +178,18 @@ CAMERA.translateCamera = function (vec) {
     // Move model camera
     this.updateModelCamera();
 
+    // Select LOD
+    LOD.select(ROOMS.furniture.array);
+
     // Update heads up display
     $('#posX').text('x: ' + pos[0].toFixed(3));
     $('#posY').text('y: ' + pos[1].toFixed(3));
     $('#posZ').text('z: ' + pos[2].toFixed(3));
+};
+CAMERA.rotateCamera = function (rad, axis) {
+    mat4.multiply(this.vMatrix, mat4.fromRotation(mat4.create(), -rad, axis), this.vMatrix);
+    this.updateCameraAxis();
+
+    // Select LOD
+    LOD.select(ROOMS.furniture.array);
 };

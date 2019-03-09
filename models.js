@@ -111,6 +111,9 @@ var MODELS = function () {
             if (prototype.lod) {
                 newModel.lod = {
                     array: [],
+                    level: prototype.lod.level,
+                    r: prototype.lod.r,
+                    select: prototype.lod.select,
                 };
                 for (var i = 0; i < prototype.lod.array.length; i++)
                     newModel.lod.array[i] = this.copyModel(prototype.lod.array[i], rMatrix, tMatrix);
