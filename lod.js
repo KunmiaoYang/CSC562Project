@@ -58,21 +58,59 @@ var LOD = function () {
             DOM.furnitureDist.text('Dist: ' + model.dist.toFixed(3));
             if (model.lod) {
                 var level = model.lod.level;
-                if (level === undefined || level >= model.lod.array.length)
+                DOM.lodConfig.show('fade');
+                if (level === undefined || level > model.lod.array.length) {
                     DOM.lodInfoLevel.text('Level: None');
-                else
+                } else {
                     DOM.lodInfoLevel.text('Level: ' + (level + 1));
+                    DOM.lodConfigManualLevel.val(level + 1);
+                }
 
                 if (model.lod.select === LOD.selectByRange) {
                     DOM.lodInfoSelect.text('Range based');
                     DOM.furnitureArea.text('');
+
+                    DOM.lodConfigSelectRange.prop('checked', 'true');
+                    DOM.lodConfigAreaBound.hide();
+                    DOM.lodConfigManualBound.hide();
+                    DOM.lodConfigRangeBound.show();
+                    DOM.lodConfigRange00.val(model.lod.rangeBounds[0][0]);
+                    DOM.lodConfigRange01.val(model.lod.rangeBounds[0][1]);
+                    DOM.lodConfigRange10.val(model.lod.rangeBounds[1][0]);
+                    DOM.lodConfigRange11.val(model.lod.rangeBounds[1][1]);
+                    DOM.lodConfigRange20.val(model.lod.rangeBounds[2][0]);
+                    DOM.lodConfigRange21.val(model.lod.rangeBounds[2][1]);
                 } else if (model.lod.select === LOD.selectByArea) {
                     DOM.lodInfoSelect.text('Area based');
                     DOM.furnitureArea.text('Area: ' + model.lod.area.toFixed(3));
-                } else DOM.lodInfoSelect.text('None');
+
+                    DOM.lodConfigSelectArea.prop('checked', 'true');
+                    DOM.lodConfigRangeBound.hide();
+                    DOM.lodConfigManualBound.hide();
+                    DOM.lodConfigAreaBound.show();
+                    DOM.lodConfigArea00.val(model.lod.areaBounds[0][0]);
+                    DOM.lodConfigArea01.val(model.lod.areaBounds[0][1]);
+                    DOM.lodConfigArea10.val(model.lod.areaBounds[1][0]);
+                    DOM.lodConfigArea11.val(model.lod.areaBounds[1][1]);
+                    DOM.lodConfigArea20.val(model.lod.areaBounds[2][0]);
+                    DOM.lodConfigArea21.val(model.lod.areaBounds[2][1]);
+                } else if (model.lod.select === LOD.selectManually) {
+                    DOM.lodInfoSelect.text('Manual select');
+
+                    DOM.lodConfigSelectManual.prop('checked', 'true');
+                    DOM.lodConfigRangeBound.hide();
+                    DOM.lodConfigAreaBound.hide();
+                    DOM.lodConfigManualBound.show();
+                } else {
+                    DOM.lodInfoSelect.text('None');
+                    DOM.lodConfigSelectRange.prop('checked', 'false');
+                    DOM.lodConfigSelectArea.prop('checked', 'false');
+                    DOM.lodConfigSelectManual.prop('checked', 'false');
+                }
             } else {
                 DOM.lodInfoLevel.text('Level: 0');
                 DOM.lodInfoSelect.text('None');
+                DOM.lodConfig.hide('fade');
             }
         },
         select: function (models) {

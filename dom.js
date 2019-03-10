@@ -5,6 +5,8 @@ var DOM = function() {
         playButton: $('#play_game'),
         pauseButton: $('#pause_game'),
         title: $('#title'),
+
+        // LOD info
         lodInfo: $('#lod_info'),
         furnitureId: $('#furniture_id'),
         lodInfoLevel: $('#lod_info_level'),
@@ -14,6 +16,28 @@ var DOM = function() {
         furnitureDist: $('#furniture_dist'),
         furnitureArea: $('#furniture_area'),
         lodInfoSelect: $('#lod_info_select'),
+
+        // LOD config
+        lodConfig: $('div#lod_config'),
+        lodConfigSelectRange: $('#lod_config_select_range'),
+        lodConfigSelectArea: $('#lod_config_select_area'),
+        lodConfigSelectManual: $('#lod_config_select_manual'),
+        lodConfigRangeBound: $('#lod_config_range_bound'),
+        lodConfigRange00: $('#lod_config_range_00'),
+        lodConfigRange01: $('#lod_config_range_01'),
+        lodConfigRange10: $('#lod_config_range_10'),
+        lodConfigRange11: $('#lod_config_range_11'),
+        lodConfigRange20: $('#lod_config_range_20'),
+        lodConfigRange21: $('#lod_config_range_21'),
+        lodConfigAreaBound: $('#lod_config_area_bound'),
+        lodConfigArea00: $('#lod_config_area_00'),
+        lodConfigArea01: $('#lod_config_area_01'),
+        lodConfigArea10: $('#lod_config_area_10'),
+        lodConfigArea11: $('#lod_config_area_11'),
+        lodConfigArea20: $('#lod_config_area_20'),
+        lodConfigArea21: $('#lod_config_area_21'),
+        lodConfigManualBound: $('#lod_config_manual_bound'),
+        lodConfigManualLevel: $('#lod_config_manual_level'),
 
         load: function(option, camera, url) {
             var canvas = document.getElementById("myWebGLCanvas"); // create a js canvas
