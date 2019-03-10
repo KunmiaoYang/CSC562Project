@@ -1,33 +1,53 @@
 var LOD = function () {
     return {
-        RANGE_NEAR: 5,
-        RANGE_FAR: 10,
-        RANGE_DISPEAR: 15,
         AREA_NEAR: 4000,
         AREA_FAR: 80,
         AREA_DISPEAR: 20,
+        initModel: function (model, r, simpleModels) {
+            model.lod = {
+                array: simpleModels,
+                level: -1,
+                r: r,
+                select: LOD.selectByRange,
+                rangeBounds: [[3, 7], [8, 12], [13, 17]],
+                areaBounds: [[4000, 2000], [100, 80], [30, 20]],
+            };
+        },
+        copyLOD: function (prototype, newModel) {
+            if (prototype.lod) {
+                newModel.lod = {
+                    array: [],
+                    level: prototype.lod.level,
+                    r: prototype.lod.r,
+                    select: prototype.lod.select,
+                    rangeBounds: prototype.lod.rangeBounds,
+                    areaBounds: prototype.lod.areaBounds,
+                };
+                for (var i = 0; i < prototype.lod.array.length; i++)
+                    newModel.lod.array[i] = MODELS.copyModel(
+                        prototype.lod.array[i], newModel.rMatrix, newModel.tMatrix);
+            }
+        },
         selectByRange: function (model) {
             if (!model.lod) return -1;
-            if (model.dist > LOD.RANGE_DISPEAR)
-                return model.lod.array.length;
-            if (model.dist > LOD.RANGE_FAR && model.lod.array.length > 1)
-                return 1;
-            if (model.dist > LOD.RANGE_NEAR && model.lod.array.length > 0)
-                return 0;
-            return -1;
+            var l = model.lod.level, n = model.lod.array.length;
+            if (l >= 0 && model.dist < model.lod.rangeBounds[l][0]) return l - 1;
+            if (l < n && model.dist > model.lod.rangeBounds[l + 1][1]) return l + 1;
+            return l;
         },
         selectByArea: function (model) {
             if (!model.lod) return -1;
+            var l = model.lod.level, n = model.lod.array.length;
             var p = -model.lod.r * CAMERA.near / (CAMERA.top - CAMERA.bottom) / vec3.dot(CAMERA.Z, model.fromCamera);
+            var a = Math.PI * SHADER.wh * p * p;
             model.lod.p = p;
-            model.lod.area = Math.PI * SHADER.wh * p * p;
-            if (model.lod.area < LOD.AREA_DISPEAR)
-                return model.lod.array.length;
-            if (model.lod.area < LOD.AREA_FAR && model.lod.array.length > 1)
-                return 1;
-            if (model.lod.area < LOD.AREA_NEAR && model.lod.array.length > 0)
-                return 0;
-            return -1;
+            model.lod.area = a;
+            if (l >= 0 && a > model.lod.areaBounds[l][0]) return l - 1;
+            if (l < n && a < model.lod.areaBounds[l + 1][1]) return l + 1;
+            return l;
+        },
+        selectManually: function (model) {
+            return model.lod.level;
         },
         updateLodInfo: function (furniture) {
             DOM.furnitureId.text('Model ID: ' + furniture.selectId);

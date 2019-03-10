@@ -75,6 +75,73 @@
     m — toggle standard models<br>
     c — toggle ceiling<br>
   </p>
+  <div id='lod_config'>
+    <table>
+      <tr>
+        <td><b>LOD selection method:</b></td>
+        <td>
+          <input type="radio" id='lod_config_select_range' name='lod_config_select_method' value='range'>
+          Range based
+        </td>
+        <td>
+          <input type="radio" id='lod_config_select_area' name='lod_config_select_method' value='area'>
+          Area based
+        </td>
+        <td>
+          <input type="radio" id='lod_config_select_manual' name='lod_config_select_method' value='manual'>
+          Manual select
+        </td>
+      </tr>
+    </table>
+    <table>
+      <tr id = 'lod_config_range_bound'>
+        <div>
+          <td>
+            <b>Range based boundary: </b>
+          </td>
+          <td>
+            Boundary 0-1:
+            <input type="number" id='lod_config_range_00' class='numInput' min='0' step='1'> -
+            <input type="number" id='lod_config_range_01' class='numInput' min='0' step='1'>
+            Boundary 1-2:
+            <input type="number" id='lod_config_range_10' class='numInput' min='0' step='1'> -
+            <input type="number" id='lod_config_range_11' class='numInput' min='0' step='1'>
+            Boundary 2-3:
+            <input type="number" id='lod_config_range_20' class='numInput' min='0' step='1'> -
+            <input type="number" id='lod_config_range_21' class='numInput' min='0' step='1'>
+          </td>
+        </div>
+      </tr>
+      <tr id = 'lod_config_area_bound'>
+        <div>
+          <td>
+            <b>Area based boundary: </b>
+          </td>
+          <td>
+            Boundary 0-1:
+            <input type="number" id='lod_config_range_00' class='numInput' min='0' step='1'> -
+            <input type="number" id='lod_config_range_01' class='numInput' min='0' step='1'>
+            Boundary 1-2:
+            <input type="number" id='lod_config_range_10' class='numInput' min='0' step='1'> -
+            <input type="number" id='lod_config_range_11' class='numInput' min='0' step='1'>
+            Boundary 2-3:
+            <input type="number" id='lod_config_range_20' class='numInput' min='0' step='1'> -
+            <input type="number" id='lod_config_range_21' class='numInput' min='0' step='1'>
+          </td>
+        </div>
+      </tr>
+      <tr id = 'lod_config_area_bound'>
+        <div>
+          <td>
+            <b>Manual select level: </b>
+          </td>
+          <td>
+            <input type="number" id='lod_config_manual_level' class='numInput' min='0' max='3' step='1'>
+          </td>
+        </div>
+      </tr>
+    </table>
+  </div>
   <button class="test" onclick="GAME.test()">Test</button>
   <table class="config">
     <tr>

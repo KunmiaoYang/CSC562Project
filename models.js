@@ -108,16 +108,7 @@ var MODELS = function () {
             let newModel = shallowClone(prototype);
             newModel.rMatrix = rMatrix;
             newModel.tMatrix = tMatrix;
-            if (prototype.lod) {
-                newModel.lod = {
-                    array: [],
-                    level: prototype.lod.level,
-                    r: prototype.lod.r,
-                    select: prototype.lod.select,
-                };
-                for (var i = 0; i < prototype.lod.array.length; i++)
-                    newModel.lod.array[i] = this.copyModel(prototype.lod.array[i], rMatrix, tMatrix);
-            }
+            LOD.copyLOD(prototype, newModel);
             newModel.xyz = vec3.fromValues(tMatrix[12], tMatrix[13], tMatrix[14]);
             return newModel;
         },

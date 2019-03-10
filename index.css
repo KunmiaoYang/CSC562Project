@@ -87,6 +87,16 @@
     font-family: "Agency FB";
 }
 
+#lod_config {
+    position: absolute;
+    left: 1054px;
+    top: 10px;
+}
+
+.numInput {
+  width: 50px;
+}
+
 #title {
     position: absolute;
     z-index: 2;
