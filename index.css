@@ -16,6 +16,13 @@
     border-color: #00FF00;
 }
 
+#map_arrow {
+    position: absolute;
+    top: 9px;
+    left: 521px;
+    z-index: 2;
+}
+
 #play_game {
     width: 167px;
     height: 62px;

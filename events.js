@@ -3,6 +3,7 @@ var EVENTS = function () {
     var renderModelCamera = function () {
         TOP_SHADER.camera = MODEL_CAMERA;
         TOP_SHADER.hide = false;
+        DOM.mapArrow.hide('fade');
         $('#topCanvas').show('fade');
         DOM.lodInfo.show('fade');
     };
@@ -108,12 +109,14 @@ var EVENTS = function () {
                     } else {
                         TOP_SHADER.camera = TOP_CAMERA;
                         TOP_SHADER.hide = false;
+                        DOM.lodInfo.hide('fade');
                     }
                     if (TOP_SHADER.hide) {
                         $('#topCanvas').hide('fade');
+                        DOM.mapArrow.hide('fade');
                     } else {
-                        DOM.lodInfo.hide('fade');
                         $('#topCanvas').show('fade');
+                        DOM.mapArrow.show('fade');
                     }
                     return;
                 case "v":    // v — toggle second view
@@ -122,6 +125,7 @@ var EVENTS = function () {
                     } else {
                         TOP_SHADER.camera = MODEL_CAMERA;
                         TOP_SHADER.hide = false;
+                        DOM.mapArrow.hide('fade');
                     }
                     if (TOP_SHADER.hide) {
                         $('#topCanvas').hide('fade');

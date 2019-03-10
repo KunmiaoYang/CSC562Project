@@ -11,6 +11,9 @@ var URL = function () {
         attackMissileModel: modelAddress + 'AttackMissile.dae',
         defenseMissileModel: modelAddress + 'DefenseMissile.dae',
         UFOModel: modelAddress + 'UFO.dae',
+        img: {
+            arrow: textureAddress + 'arrow.png',
+        },
         texture: {
             'floor': textureAddress + 'floor.jpg',
             'background': textureAddress + 'background.jpg',

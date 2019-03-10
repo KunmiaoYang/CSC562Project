@@ -5,6 +5,7 @@ var DOM = function() {
         playButton: $('#play_game'),
         pauseButton: $('#pause_game'),
         title: $('#title'),
+        mapArrow: $('#map_arrow'),
 
         // LOD info
         lodInfo: $('#lod_info'),
@@ -42,6 +43,7 @@ var DOM = function() {
         load: function(option, camera, url) {
             var canvas = document.getElementById("myWebGLCanvas"); // create a js canvas
             option.useLight = document.getElementById("UseLight").checked;
+            // DOM.mapArrow.hide();
             // url.lights = document.getElementById("LightsURL").value;
             // canvas.width = parseInt(document.getElementById("Width").value);
             // canvas.height = parseInt(document.getElementById("Height").value);

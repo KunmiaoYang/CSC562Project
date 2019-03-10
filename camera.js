@@ -131,6 +131,7 @@ TOP_CAMERA.zoomCamera = function (dist) {
     }
     this.vMatrix[14] -= dist;
 };
+TOP_SHADER.camera = TOP_CAMERA;
 
 var MODEL_CAMERA = CREATE_CAMERA(
     vec3.fromValues(1.5, 0.5, 1.5),  // default camera position in world space
@@ -141,7 +142,6 @@ MODEL_CAMERA.zoomCamera = function (dist) {
     MODEL_CAMERA.dist += dist;
     CAMERA.updateModelCamera();
 }
-TOP_SHADER.camera = MODEL_CAMERA;
 
 var CAMERA = CREATE_CAMERA(
     vec3.fromValues(0.5, 0.5, -0.5),  // default camera position in world space
