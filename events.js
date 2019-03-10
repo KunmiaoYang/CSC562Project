@@ -86,12 +86,6 @@ var EVENTS = function () {
                 case "9": // 9 — Render model camera
                     renderModelCamera();
                     return;
-                case "0": // 0 — Render top down map
-                    DOM.lodInfo.hide('fade');
-                    TOP_SHADER.camera = TOP_CAMERA;
-                    TOP_SHADER.hide = false;
-                    $('#topCanvas').show('fade');
-                    return;
                 case "h":    // h — toggle hierarchical culling
                     CULLING.hierarchy = !CULLING.hierarchy;
                     $('#hierarchy').text(CULLING.hierarchy);
@@ -102,24 +96,39 @@ var EVENTS = function () {
                 case "k":    // k — Zoom out 
                     TOP_SHADER.camera.zoomCamera(EVENTS.DELTA_TRANS);
                     return;
-                case "m":    // m — toggle LOD selection
-                    toggleSelection(ROOMS.furniture);
-                    return;
                 // case "m":    // m — toggle standard models
                 //     ROOMS.renderStandard = !ROOMS.renderStandard;
                 //     return;
                 case "c":    // c — toggle ceiling
                     ROOMS.renderCeiling = !ROOMS.renderCeiling;
                     return;
+                case "m": // m — Render top down map
+                    if (TOP_SHADER.camera === TOP_CAMERA) {
+                        TOP_SHADER.hide = !TOP_SHADER.hide;
+                    } else {
+                        TOP_SHADER.camera = TOP_CAMERA;
+                        TOP_SHADER.hide = false;
+                    }
+                    if (TOP_SHADER.hide) {
+                        $('#topCanvas').hide('fade');
+                    } else {
+                        DOM.lodInfo.hide('fade');
+                        $('#topCanvas').show('fade');
+                    }
+                    return;
                 case "v":    // v — toggle second view
-                    TOP_SHADER.hide = !TOP_SHADER.hide;
+                    if (TOP_SHADER.camera === MODEL_CAMERA) {
+                        TOP_SHADER.hide = !TOP_SHADER.hide;
+                    } else {
+                        TOP_SHADER.camera = MODEL_CAMERA;
+                        TOP_SHADER.hide = false;
+                    }
                     if (TOP_SHADER.hide) {
                         $('#topCanvas').hide('fade');
                         DOM.lodInfo.hide('fade');
                     } else {
                         $('#topCanvas').show('fade');
-                        if (TOP_SHADER.camera === MODEL_CAMERA)
-                            DOM.lodInfo.show('fade');
+                        DOM.lodInfo.show('fade');
                     }
                     return;
                 case "ArrowLeft": // left - select previous furniture
@@ -142,10 +151,56 @@ var EVENTS = function () {
         handleMouseMove: function (event) {
             GAME.rotateBatteries(event.offsetX / DOM.canvas.width, event.offsetY / DOM.canvas.height);
         },
+        handleSelectMethodChange: function (select) {
+            return function () {
+                var models = ROOMS.furniture;
+                models.array[models.selectId].lod.select = select;
+                LOD.select(models.array);
+            };
+        },
+        handleRangeBoundChange: function (i, j) {
+            return function (event) {
+                var model = ROOMS.getCurrentFurniture();
+                if (!model.lod) return;
+                model.lod.rangeBounds[i][j] = parseInt($(event.currentTarget).val());
+                LOD.select(ROOMS.furniture.array);
+            };
+        },
+        handleAreaBoundChange: function (i, j) {
+            return function (event) {
+                var model = ROOMS.getCurrentFurniture();
+                if (!model.lod) return;
+                model.lod.areaBounds[i][j] = parseInt($(event.currentTarget).val());
+                LOD.select(ROOMS.furniture.array);
+            };
+        },
+        handleManulLevelChange: function (event) {
+            var model = ROOMS.getCurrentFurniture();
+            if (!model.lod) return;
+            model.lod.level = parseInt($(event.currentTarget).val() - 1);
+            LOD.select(ROOMS.furniture.array);
+        },
         setupEvent: function () {
             document.onkeydown = EVENTS.handleKeyDown;
             document.onkeyup = EVENTS.handleKeyUp;
             // $(DOM.canvas).on('click', EVENTS.handleClick).mousemove(EVENTS.handleMouseMove);
+
+            DOM.lodConfigSelectRange.on('click', EVENTS.handleSelectMethodChange(LOD.selectByRange));
+            DOM.lodConfigSelectArea.on('click', EVENTS.handleSelectMethodChange(LOD.selectByArea));
+            DOM.lodConfigSelectManual.on('click', EVENTS.handleSelectMethodChange(LOD.selectManually));
+            DOM.lodConfigRange00.on('change', EVENTS.handleRangeBoundChange(0, 0));
+            DOM.lodConfigRange01.on('change', EVENTS.handleRangeBoundChange(0, 1));
+            DOM.lodConfigRange10.on('change', EVENTS.handleRangeBoundChange(1, 0));
+            DOM.lodConfigRange11.on('change', EVENTS.handleRangeBoundChange(1, 1));
+            DOM.lodConfigRange20.on('change', EVENTS.handleRangeBoundChange(2, 0));
+            DOM.lodConfigRange21.on('change', EVENTS.handleRangeBoundChange(2, 1));
+            DOM.lodConfigArea00.on('change', EVENTS.handleAreaBoundChange(0, 0));
+            DOM.lodConfigArea01.on('change', EVENTS.handleAreaBoundChange(0, 1));
+            DOM.lodConfigArea10.on('change', EVENTS.handleAreaBoundChange(1, 0));
+            DOM.lodConfigArea11.on('change', EVENTS.handleAreaBoundChange(1, 1));
+            DOM.lodConfigArea20.on('change', EVENTS.handleAreaBoundChange(2, 0));
+            DOM.lodConfigArea21.on('change', EVENTS.handleAreaBoundChange(2, 1));
+            DOM.lodConfigManualLevel.on('change', EVENTS.handleManulLevelChange);
         }
     };
 }();

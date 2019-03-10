@@ -370,6 +370,10 @@ var ROOMS = function () {
             return room;
         },
 
+        getCurrentFurniture: function () {
+            return ROOMS.furniture.array[ROOMS.furniture.selectId];
+        },
+
         load: function (shaders) {
             this.ready = false;
             // Load prototype
