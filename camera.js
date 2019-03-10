@@ -188,6 +188,9 @@ CAMERA.rotateCamera = function (rad, axis) {
     mat4.multiply(this.vMatrix, mat4.fromRotation(mat4.create(), -rad, axis), this.vMatrix);
     this.updateCameraAxis();
 
+    // Rotate map (Only applicable when rotate left or right)
+    TOP_CAMERA.rotateCamera (rad, vec3.fromValues(0, 0, 1));
+
     // Select LOD
     LOD.select(ROOMS.furniture.array);
 };
