@@ -131,5 +131,11 @@ var LOD = function () {
             }
             return model;
         },
+        exportCurLOD: function() {
+            var model = LOD.filter(ROOMS.getCurrentFurniture());
+            if (model) {
+                MODELS.exportModel(model);
+            }
+        },
     };
 }();

@@ -43,6 +43,7 @@ var DOM = function() {
         load: function(option, camera, url) {
             var canvas = document.getElementById("myWebGLCanvas"); // create a js canvas
             option.useLight = document.getElementById("UseLight").checked;
+            DOM.lodInfo.hide();
             // DOM.mapArrow.hide();
             // url.lights = document.getElementById("LightsURL").value;
             // canvas.width = parseInt(document.getElementById("Width").value);
@@ -53,6 +54,15 @@ var DOM = function() {
             // camera.bottom = parseFloat(document.getElementById("WBottom").value);
             // camera.near = parseFloat(document.getElementById("WNear").value);
             // camera.far = parseFloat(document.getElementById("WFar").value);
-        }
+        },
+        exportJSON: function (obj, filename = 'data.json') {
+            var dataStr = JSON.stringify(obj);
+            var dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            var link = document.createElement('a');
+            link.setAttribute('href', dataUri);
+            link.setAttribute('download', filename);
+            link.click();
+            link.remove();
+        },
     };
 }();

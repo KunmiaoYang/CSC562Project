@@ -414,22 +414,10 @@ var ROOMS = function () {
             // MODELS.array.splice(3,1);
             // MODELS.array = MODELS.array.concat(ROOMS.prototype.furniture.sphere);
             // this.ready = true;
-            if (true) {
-                var data = testRooms;
-                ROOMS.data = data;
-                ROOMS.ready = true;
-                $('canvas#myWebGLCanvas').trigger('loadData');
-            } else {
-                // ****************** END TEST ******************
-
-                // load topology
-                $.getJSON(URL.rooms, function (data) {
-                    ROOMS.data = data;
-
-                    ROOMS.ready = true;
-                    $('canvas#myWebGLCanvas').trigger('loadData');
-                });
-            }
+            // ****************** END TEST ******************
+            ROOMS.data = testRooms;
+            ROOMS.ready = true;
+            $('canvas#myWebGLCanvas').trigger('loadData');
         },
 
         initRoomsModel: function (data) {

@@ -103,6 +103,7 @@ var JSON_MODEL = function () {
                         triangleSet.texture = [];
                         for (var i = 0; i < nShader; i++)
                             triangleSet.texture[shaders[i].id] = shaders[i].texture[curSet.texture];
+                        triangleSet.material.texture = curSet.texture;
                     }
 
                     // Create triangles center
