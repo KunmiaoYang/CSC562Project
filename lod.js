@@ -58,7 +58,8 @@ var LOD = function () {
             DOM.furnitureDist.text('Dist: ' + model.dist.toFixed(3));
             if (model.lod) {
                 var level = model.lod.level;
-                DOM.lodConfig.show('fade');
+                DOM.nonLodElement.hide();
+                DOM.lodElement.show('fade');
                 if (level === undefined || level > model.lod.array.length) {
                     DOM.lodInfoLevel.text('Level: None');
                 } else {
@@ -111,7 +112,8 @@ var LOD = function () {
             } else {
                 DOM.lodInfoLevel.text('Level: 0');
                 DOM.lodInfoSelect.text('None');
-                DOM.lodConfig.hide('fade');
+                DOM.lodElement.hide();
+                DOM.nonLodElement.show('fade');
             }
         },
         select: function (models) {
@@ -131,6 +133,22 @@ var LOD = function () {
                     return model.lod.array[model.lod.level];
             }
             return model;
+        },
+        addLOD: function (model) {
+            var r = 0;
+            for (var i = 0, v = model.coordArray.length/3; i < v; i++) {
+                r = Math.max(r, 
+                    Math.pow(model.coordArray[3*i], 2) +
+                    Math.pow(model.coordArray[3*i + 1], 2) +
+                    Math.pow(model.coordArray[3*i + 2], 2)
+                );
+            }
+            r = Math.sqrt(r);
+            LOD.initModel(model, r, [model, model]);
+        },
+        addCurLOD: function () {
+            LOD.addLOD(ROOMS.getCurrentFurniture());
+            LOD.updateLodInfo(ROOMS.furniture);
         },
         exportCurLOD: function () {
             var model = LOD.filter(ROOMS.getCurrentFurniture());

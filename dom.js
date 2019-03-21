@@ -47,6 +47,10 @@ var DOM = function () {
         lodConfigImportFile: $('#lod_config_import_file'),
         lodConfigImportFilePath: $('#lod_config_import_file_path'),
 
+        // LOD class
+        lodElement: $('.lod_element'),
+        nonLodElement: $('.non_lod_element'),
+
         load: function (option, camera, url) {
             var canvas = document.getElementById("myWebGLCanvas"); // create a js canvas
             option.useLight = document.getElementById("UseLight").checked;

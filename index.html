@@ -33,13 +33,16 @@
   <table id="lod_info">
     <tr>
       <td id="furniture_id" class="info info_value">Model ID: 0</td>
-      <td id="lod_info_level" class="info info_value">Level: 0</td>
+      <td class="info info_value">
+        <div id="lod_info_level" class="lod_element">Level: 0</div>
+      </td>
       <td id="furniture_area" class="info info_value"></td>
       <td>
         <button onclick="LOD.exportCurLOD()">Export</button>
       </td>
       <td>
-        <button onclick="DOM.lodConfigImport.toggle('fade')">Import</button>
+        <button class="lod_element" onclick="DOM.lodConfigImport.toggle('fade')">Import</button>
+        <button class="non_lod_element" onclick="LOD.addCurLOD()">Add LOD</button>
       </td>
     </tr>
     <tr>
@@ -48,14 +51,14 @@
       <td id="furniture_posZ" class="info info_value">z: 0.0</td>
       <td id="furniture_dist" class="info info_value">dist: 0.0</td>
     </tr>
-    <tr>
+    <tr class='lod_element'>
       <td class="info">Selection method: </td>
       <td id="lod_info_select" class="info info_value">Range based</td>
     </tr>
   </table>
   <canvas id="myWebGLCanvas" width="1024" height="1024"></canvas>
   <canvas id="topCanvas" width="512" height="512"></canvas>
-  <img id="map_arrow" src="img/arrow.png" width="512" height="512"/>
+  <img id="map_arrow" src="img/arrow.png" width="512" height="512" />
   <!-- <img id="title" class="intro"/> -->
   <!-- <img id="play_game" class="play" onclick="GAME.play()"/> -->
   <!-- <img id="pause_game" class="play" onclick="GAME.pause()"/> -->
@@ -83,7 +86,7 @@
     n — toggle model view<br>
     c — toggle ceiling<br>
   </p>
-  <div id='lod_config'>
+  <div id='lod_config' class='lod_element'>
     <table>
       <tr>
         <td><b>LOD selection method:</b></td>
@@ -102,7 +105,7 @@
       </tr>
     </table>
     <table>
-      <tr id = 'lod_config_range_bound'>
+      <tr id='lod_config_range_bound'>
         <div>
           <td>
             <b>Range based boundary: </b>
@@ -120,7 +123,7 @@
           </td>
         </div>
       </tr>
-      <tr id = 'lod_config_area_bound'>
+      <tr id='lod_config_area_bound'>
         <div>
           <td>
             <b>Area based boundary: </b>
@@ -138,7 +141,7 @@
           </td>
         </div>
       </tr>
-      <tr id = 'lod_config_manual_bound'>
+      <tr id='lod_config_manual_bound'>
         <div>
           <td>
             <b>Manual select level: </b>
@@ -154,13 +157,11 @@
         <tr>
           <td><b>LOD model import:</b></td>
           <td>
-            <input type="radio" id='lod_config_import_method_file'
-            name='lod_config_import_method' value="file">
-            From JSON file 
+            <input type="radio" id='lod_config_import_method_file' name='lod_config_import_method' value="file">
+            From JSON file
           </td>
           <td>
-            <input type="radio" id='lod_config_import_method_text'
-            name='lod_config_import_method' value="text">
+            <input type="radio" id='lod_config_import_method_text' name='lod_config_import_method' value="text">
             From JSON text
           </td>
         </tr>

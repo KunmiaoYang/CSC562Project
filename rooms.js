@@ -42,7 +42,7 @@ var ROOMS = function () {
             [0, 3, 0, "sphere", 2],
             [0, 4, 0, "sphere", 2],
             // [1, 4, 4, "triangleset", 0],
-            // [0, 3, 2, "standard", 0],
+            [0, 3, 2, "standard", 0],
             // [1, 0, 4, "standard", 1],
         ],
     };
