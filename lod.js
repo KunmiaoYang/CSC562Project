@@ -135,15 +135,21 @@ var LOD = function () {
             return model;
         },
         addLOD: function (model) {
-            var r = 0;
-            for (var i = 0, v = model.coordArray.length/3; i < v; i++) {
-                r = Math.max(r, 
-                    Math.pow(model.coordArray[3*i], 2) +
-                    Math.pow(model.coordArray[3*i + 1], 2) +
-                    Math.pow(model.coordArray[3*i + 2], 2)
-                );
+            var r = 0, v = model.coordArray.length / 3;
+            var triCenter = vec3.create();
+            for (let i = 0; i < model.coordArray.length; i++) {
+                triCenter[i%3] += model.coordArray[i];
             }
-            r = Math.sqrt(r);
+            vec3.scale(triCenter, triCenter, 1.0 / v);
+            for (var i = 0; i < v; i++) {
+                var p = vec3.fromValues(
+                    model.coordArray[3 * i] - triCenter[0],
+                    model.coordArray[3 * i + 1] - triCenter[1],
+                    model.coordArray[3 * i + 2] - triCenter[2]
+                );
+                var vec = vec3.transformMat4(vec3.create(), p, model.rMatrix);
+                r = Math.max(r, vec3.length(vec));
+            }
             LOD.initModel(model, r, [model, model]);
         },
         addCurLOD: function () {
