@@ -392,14 +392,14 @@ var ROOMS = function () {
             }
 
             // Load standard model prototype
-            // SKECHUP_MODEL.loadModel(shaders, URL.cityModel, function (model) {
-            //     model.material = city.material;
-            //     model.rMatrix = city.scaleMatrix;
-            //     model.tMatrix = mat4.fromTranslation(mat4.create(), city.pos);
-            //     model.animation = city.animation;
-            //     model.mark = city.mark;
-            //     ROOMS.prototype.furniture.standard[0] = model;
-            // });
+            SKECHUP_MODEL.loadModel(shaders, URL.cityModel, function (model) {
+                model.material = city.material;
+                model.rMatrix = city.scaleMatrix;
+                model.tMatrix = mat4.fromTranslation(mat4.create(), city.pos);
+                model.animation = city.animation;
+                model.mark = city.mark;
+                ROOMS.prototype.furniture.standard[0] = model;
+            });
             // SKECHUP_MODEL.loadModel(shaders, URL.batteryModel, function (model) {
             //     model.material = battery.material;
             //     model.rMatrix = battery.scaleMatrix;

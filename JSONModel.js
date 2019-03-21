@@ -29,6 +29,10 @@ var JSON_MODEL = function () {
                         triangleSet.texture = [];
                         for (var i = 0; i < nShader; i++)
                             triangleSet.texture[shaders[i].id] = shaders[i].texture[triangleSet.material.texture];
+                    } else {
+                        // Add dummy UVs
+                        for (var i = 0; i < shaders.length; i++)
+                            MODELS.addDummyTexture(shaders[i], triangleSet);
                     }
                     if (curSet.mark) triangleSet.mark = curSet.mark;
 
