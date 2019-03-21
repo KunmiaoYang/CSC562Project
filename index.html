@@ -37,12 +37,10 @@
         <div id="lod_info_level" class="lod_element">Level: 0</div>
       </td>
       <td id="furniture_area" class="info info_value"></td>
-      <td>
+      <td colspan="2">
         <button onclick="LOD.exportCurLOD()">Export</button>
-      </td>
-      <td>
         <button class="lod_element" onclick="DOM.lodConfigImport.toggle('fade')">Import</button>
-        <button class="non_lod_element" onclick="LOD.addCurLOD()">Add LOD</button>
+        <button class="non_lod_element" onclick="LOD.addCurLOD()">Create LOD</button>
       </td>
     </tr>
     <tr>
@@ -50,6 +48,7 @@
       <td id="furniture_posY" class="info info_value">y: 0.0</td>
       <td id="furniture_posZ" class="info info_value">z: 0.0</td>
       <td id="furniture_dist" class="info info_value">dist: 0.0</td>
+      <td class="info_value"></td>
     </tr>
     <tr class='lod_element'>
       <td class="info">Selection method: </td>
