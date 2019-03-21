@@ -38,6 +38,9 @@
       <td>
         <button onclick="LOD.exportCurLOD()">Export</button>
       </td>
+      <td>
+        <button onclick="DOM.lodConfigImport.toggle('fade')">Import</button>
+      </td>
     </tr>
     <tr>
       <td id="furniture_posX" class="info info_value">x: 0.0</td>
@@ -66,17 +69,18 @@
     e — translate view down along view Y<br>
     A — rotate view left around view Y (yaw)<br>
     D — rotate view right around view Y (yaw)<br>
-    W — rotate view forward around view X (pitch)<br>
+    <!-- W — rotate view forward around view X (pitch)<br>
     S — rotate view backward around view X (pitch)<br>
     Q — rotate view forward around view Z (roll)<br>
-    E — rotate view backward around view Z (roll)<br>
+    E — rotate view backward around view Z (roll)<br> -->
     1 — Render without culling<br>
     2 — Render with frustum culling<br>
     3 — Render with portal culling<br>
     h — toggle hierarchical culling<br>
     j — Zoom in top down view<br>
     k — Zoom out top down view<br>
-    m — toggle standard models<br>
+    m — toggle map view<br>
+    n — toggle model view<br>
     c — toggle ceiling<br>
   </p>
   <div id='lod_config'>
@@ -145,6 +149,31 @@
         </div>
       </tr>
     </table>
+    <div id='lod_config_import'>
+      <table>
+        <tr>
+          <td><b>LOD model import:</b></td>
+          <td>
+            <input type="radio" id='lod_config_import_method_file'
+            name='lod_config_import_method' value="file">
+            From JSON file 
+          </td>
+          <td>
+            <input type="radio" id='lod_config_import_method_text'
+            name='lod_config_import_method' value="text">
+            From JSON text
+          </td>
+        </tr>
+      </table>
+      <div id='lod_config_import_text'>
+        <textarea id="lod_config_import_text_code" cols="80" rows="40"></textarea><br>
+        <button onclick="EVENTS.handleImportFromText()">Submit</button>
+      </div>
+      <div id='lod_config_import_file'>
+        <input type="file" id="lod_config_import_file_path">
+        <button onclick="EVENTS.handleImportFromFile()">Submit</button>
+      </div>
+    </div>
   </div>
 
   <button class="test" onclick="GAME.test()">Test</button>

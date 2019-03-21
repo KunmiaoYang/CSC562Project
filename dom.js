@@ -1,4 +1,4 @@
-var DOM = function() {
+var DOM = function () {
     return {
         canvas: document.getElementById("myWebGLCanvas"),
         topCanvas: document.getElementById("topCanvas"),
@@ -39,11 +39,21 @@ var DOM = function() {
         lodConfigArea21: $('#lod_config_area_21'),
         lodConfigManualBound: $('#lod_config_manual_bound'),
         lodConfigManualLevel: $('#lod_config_manual_level'),
+        lodConfigImport: $('#lod_config_import'),
+        lodConfigImportMethodText: $('#lod_config_import_method_text'),
+        lodConfigImportMethodFile: $('#lod_config_import_method_file'),
+        lodConfigImportText: $('#lod_config_import_text'),
+        lodConfigImportTextCode: $('#lod_config_import_text_code'),
+        lodConfigImportFile: $('#lod_config_import_file'),
+        lodConfigImportFilePath: $('#lod_config_import_file_path'),
 
-        load: function(option, camera, url) {
+        load: function (option, camera, url) {
             var canvas = document.getElementById("myWebGLCanvas"); // create a js canvas
             option.useLight = document.getElementById("UseLight").checked;
             DOM.lodInfo.hide();
+            DOM.lodConfigImportText.hide();
+            DOM.lodConfigImport.hide();
+            DOM.lodConfigImportMethodFile.prop('checked', 'true');
             // DOM.mapArrow.hide();
             // url.lights = document.getElementById("LightsURL").value;
             // canvas.width = parseInt(document.getElementById("Width").value);
@@ -57,7 +67,7 @@ var DOM = function() {
         },
         exportJSON: function (obj, filename = 'data.json') {
             var dataStr = JSON.stringify(obj);
-            var dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            var dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
             var link = document.createElement('a');
             link.setAttribute('href', dataUri);
             link.setAttribute('download', filename);

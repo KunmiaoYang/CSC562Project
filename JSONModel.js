@@ -1,6 +1,6 @@
 var JSON_MODEL = function () {
     return {
-        loadTriangleSets: function (shaders, inputTriangles) {
+        loadTriangleSets: function (shaders, inputTriangles, recenter = true) {
             var nShader = shaders.length;
             var triangleSets = [];
             if (inputTriangles != String.null) {
@@ -34,10 +34,12 @@ var JSON_MODEL = function () {
 
                     // Calculate triangles center
                     var triCenter = vec3.create();
-                    for (let i = 0; i < curSet.vertices.length; i++) {
-                        vec3.add(triCenter, triCenter, curSet.vertices[i]);
+                    if (recenter) {
+                        for (let i = 0; i < curSet.vertices.length; i++) {
+                            vec3.add(triCenter, triCenter, curSet.vertices[i]);
+                        }
+                        vec3.scale(triCenter, triCenter, 1.0 / curSet.vertices.length);
                     }
-                    vec3.scale(triCenter, triCenter, 1.0 / curSet.vertices.length);
 
                     // Add coordinates to buffer
                     for (let i = 0; i < curSet.vertices.length; i++) {
@@ -189,6 +191,42 @@ var JSON_MODEL = function () {
                 console.log(e);
                 return (String.null);
             }
-        }
+        },
+        genJSONModel: function (model) {
+            var jsonModel = {
+                material: model.material,
+                vertices: [],
+                normals: [],
+                uvs: [],
+                triangles: [],
+            };
+            for (var i = 0, v = model.coordArray.length / 3; i < v; i++) {
+                jsonModel.vertices.push([
+                    model.coordArray[3 * i],
+                    model.coordArray[3 * i + 1],
+                    model.coordArray[3 * i + 2],
+                ]);
+                jsonModel.normals.push([
+                    model.normalArray[3 * i],
+                    model.normalArray[3 * i + 1],
+                    model.normalArray[3 * i + 2],
+                ]);
+                jsonModel.uvs.push([
+                    model.uvArray[2 * i],
+                    model.uvArray[2 * i + 1],
+                ]);
+            }
+            for (var i = 0, t = model.indexArray.length / 3; i < t; i++) {
+                jsonModel.triangles.push([
+                    model.indexArray[3 * i],
+                    model.indexArray[3 * i + 1],
+                    model.indexArray[3 * i + 2],
+                ]);
+            }
+            return jsonModel;
+        },
+        exportModel: function (model) {
+            DOM.exportJSON(JSON_MODEL.genJSONModel(model), 'model.json');
+        },
     };
 }();

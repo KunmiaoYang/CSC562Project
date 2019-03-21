@@ -121,14 +121,5 @@ var MODELS = function () {
             for (let i = 0; i < len; i++)
                 model.uvArray[i] = 0;
         },
-        exportModel: function (model) {
-            DOM.exportJSON({
-                material: model.material,
-                vertices: model.coordArray,
-                normals: model.normalArray,
-                uvs: model.uvArray,
-                triangles: model.indexArray,
-            }, 'model.json');
-        },
     }
 }();

@@ -119,7 +119,7 @@ var EVENTS = function () {
                         DOM.mapArrow.show('fade');
                     }
                     return;
-                case "v":    // v — toggle second view
+                case "n":    // n — toggle second view
                     if (TOP_SHADER.camera === MODEL_CAMERA) {
                         TOP_SHADER.hide = !TOP_SHADER.hide;
                     } else {
@@ -184,6 +184,31 @@ var EVENTS = function () {
             model.lod.level = parseInt($(event.currentTarget).val() - 1);
             LOD.select(ROOMS.furniture.array);
         },
+        handleMethodImportFromText: function () {
+            DOM.lodConfigImportFile.hide();
+            DOM.lodConfigImportText.show();
+        },
+        handleMethodImportFromFile: function () {
+            DOM.lodConfigImportText.hide();
+            DOM.lodConfigImportFile.show();
+        },
+        handleImportFromText: function () {
+            var json = JSON.parse(DOM.lodConfigImportTextCode.val());
+            var model = JSON_MODEL.loadTriangleSets([SHADER, TOP_SHADER], [json], false)[0];
+            LOD.importCurLOD(model);
+        },
+        handleImportFromFile: function () {
+            var file = DOM.lodConfigImportFilePath[0].files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.readAsText(file);
+                reader.onload = function (e) {
+                    var json = JSON.parse(this.result);
+                    var model = JSON_MODEL.loadTriangleSets([SHADER, TOP_SHADER], [json], false)[0];
+                    LOD.importCurLOD(model);
+                };
+            }
+        },
         setupEvent: function () {
             document.onkeydown = EVENTS.handleKeyDown;
             document.onkeyup = EVENTS.handleKeyUp;
@@ -205,6 +230,9 @@ var EVENTS = function () {
             DOM.lodConfigArea20.on('change', EVENTS.handleAreaBoundChange(2, 0));
             DOM.lodConfigArea21.on('change', EVENTS.handleAreaBoundChange(2, 1));
             DOM.lodConfigManualLevel.on('change', EVENTS.handleManulLevelChange);
+
+            DOM.lodConfigImportMethodText.on('click', EVENTS.handleMethodImportFromText);
+            DOM.lodConfigImportMethodFile.on('click', EVENTS.handleMethodImportFromFile);
         }
     };
 }();

@@ -96,6 +96,7 @@ var LOD = function () {
                     DOM.lodConfigArea21.val(model.lod.areaBounds[2][1]);
                 } else if (model.lod.select === LOD.selectManually) {
                     DOM.lodInfoSelect.text('Manual select');
+                    DOM.furnitureArea.text('');
 
                     DOM.lodConfigSelectManual.prop('checked', 'true');
                     DOM.lodConfigRangeBound.hide();
@@ -131,10 +132,30 @@ var LOD = function () {
             }
             return model;
         },
-        exportCurLOD: function() {
+        exportCurLOD: function () {
             var model = LOD.filter(ROOMS.getCurrentFurniture());
             if (model) {
-                MODELS.exportModel(model);
+                JSON_MODEL.exportModel(model);
+            } else {
+                alert('No model can be exported on current LOD level! Please try again when the model is visible!');
+            }
+        },
+        importCurLOD: function (LODModel) {
+            var model = ROOMS.getCurrentFurniture();
+            if (model.lod) {
+                if (model.lod.level < 0) {
+                    alert("Replacing the original model is forbidden!")
+                } else if (model.lod.level >= model.lod.array.length) {
+                    alert("Replacing the invisible level model is forbidden!")
+                } else {
+                    LODModel.doubleSide = model.doubleSide;
+                    LODModel.tMatrix = model.tMatrix;
+                    LODModel.rMatrix = model.rMatrix;
+                    LODModel.xyz = vec3.fromValues(LODModel.tMatrix[12], LODModel.tMatrix[13], LODModel.tMatrix[14]);
+                    model.lod.array[model.lod.level] = LODModel;
+                }
+            } else {
+                alert("This model doesn't contain LOD!");
             }
         },
     };
