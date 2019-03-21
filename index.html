@@ -39,7 +39,7 @@
       <td id="furniture_area" class="info info_value"></td>
       <td colspan="2">
         <button onclick="LOD.exportCurLOD()">Export</button>
-        <button class="lod_element" onclick="DOM.lodConfigImport.toggle('fade')">Import</button>
+        <button class="lod_element" onclick="DOM.lodConfigImport.toggle('fade')">Replace LOD</button>
         <button class="non_lod_element" onclick="LOD.addCurLOD()">Create LOD</button>
       </td>
     </tr>
@@ -154,7 +154,7 @@
     <div id='lod_config_import'>
       <table>
         <tr>
-          <td><b>LOD model import:</b></td>
+          <td><b>Replace LOD model:</b></td>
           <td>
             <input type="radio" id='lod_config_import_method_file' name='lod_config_import_method' value="file">
             From JSON file
