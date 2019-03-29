@@ -89,13 +89,31 @@ var VERTEX_CLUSTER = function () {
         }
         return W;
     };
+    var synthesis = function (V, N, UV, C, W) {
+        // TODO: implement
+        var SV = [], SN = [], SUV = [], n = C.length;
+        for (var i = 0, max; i < n; i++) {
+            // find index of max weight
+            id = C[i][0];
+            for (var j = 1, m = C[i].length; j < m; j++) {
+                if (W[C[i][j]] > W[id]) id = C[i][j];
+            }
+            // synthesis
+            SV.push(V[3 * id], V[3 * id + 1], V[3 * id + 2]);
+            SN.push(N[3 * id], N[3 * id + 1], N[3 * id + 2]);
+            SUV.push(UV[2 * id], UV[2 * id + 1]);
+        }
+        return { SV: SV, SN: SN, SUV: SUV };
+    };
     return {
         generate: function (model, nx, ny, nz) {
             var V = buildVertices(model.coordArray);
             var W = grading(V, model.indexArray);
-            console.log('grade:', W);
+            // console.log('grade:', W);
             var cluster = clustering(model.coordArray, nx, ny, nz);
-            console.log('cluster:', cluster);
+            // console.log('cluster:', cluster);
+            var syn = synthesis(model.coordArray, model.normalArray, model.uvArray, cluster.C, W);
+            console.log('synthesis:', syn);
         },
     };
 }();
