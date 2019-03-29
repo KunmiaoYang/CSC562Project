@@ -1,0 +1,101 @@
+var VERTEX_CLUSTER = function () {
+    var ERR = 1e-10;
+    var calcCos = function (p1, p2, p3) {
+        var v1 = vec3.sub(vec3.create(), p1, p2),
+            v2 = vec3.sub(vec3.create(), p3, p2);
+        vec3.normalize(v1, v1);
+        vec3.normalize(v2, v2);
+        return vec3.dot(v1, v2);
+    };
+    // Refer to "Multi-resolution 3D Approximations for Rendering Complex Scenes"
+    var clustering = function (V, nx, ny, nz) {
+        var n = V.length,
+            xlim = [Number.MAX_VALUE, Number.MIN_VALUE],
+            ylim = [Number.MAX_VALUE, Number.MIN_VALUE],
+            zlim = [Number.MAX_VALUE, Number.MIN_VALUE];
+        for (var i = 0; i < n; i += 3) {
+            if (V[i] < xlim[0]) xlim[0] = V[i];
+            if (V[i] > xlim[1]) xlim[1] = V[i];
+            if (V[i + 1] < ylim[0]) ylim[0] = V[i + 1];
+            if (V[i + 1] > ylim[1]) ylim[1] = V[i + 1];
+            if (V[i + 2] < zlim[0]) zlim[0] = V[i + 2];
+            if (V[i + 2] > zlim[1]) zlim[1] = V[i + 2];
+        }
+        var dx = (xlim[1] - xlim[0]) / nx,
+            dy = (ylim[1] - ylim[0]) / ny,
+            dz = (zlim[1] - zlim[0]) / nz,
+            ids = [], vSets = [];
+        for (var i = 0, id; i < n; i += 3) {
+            id = Math.min(Math.floor((V[i] - xlim[0]) / dx), nx - 1)
+                + Math.min(Math.floor((V[i + 1] - ylim[0]) / dy), ny - 1) * nx
+                + Math.min(Math.floor((V[i + 2] - zlim[0]) / dz), nz - 1) * nx * ny;
+            ids.push(id);
+            if (vSets[id] === undefined) vSets[id] = [i / 3];
+            else vSets[id].push(i / 3);
+        }
+        var R = [], C = [];
+        for (var i = 0, nSets = vSets.length, id; i < nSets; i++) {
+            if (vSets[i] === undefined) continue;
+            id = C.length;
+            C.push(vSets[i]);
+            for (var j = 0; j < vSets[i].length; j++) {
+                R[vSets[i][j]] = id;
+            }
+        }
+        return { R: R, C: C };
+    };
+    var buildVertices = function (arr) {
+        var V = [];
+        for (var i = 0, n = arr.length; i < n; i += 3) {
+            V.push(vec3.fromValues(arr[i], arr[i + 1], arr[i + 2]));
+        }
+        return V;
+    };
+    var updateFactor1 = function (factor, i, p1, p2, p3) {
+        if (factor[i] === undefined) factor[i] = Math.sqrt((1 + calcCos(p1, p2, p3)) / 2);
+        else factor[i] = Math.min(factor[i], Math.sqrt((1 + calcCos(p1, p2, p3)) / 2));
+    };
+    var updateFactor2 = function (factor, i, dist) {
+        if (factor[i] === undefined) factor[i] = dist;
+        else factor[i] = Math.max(factor[i], dist);
+    };
+    var grading = function (V, T) {
+        var n = V.length, m = T.length, factor1 = [], factor2 = [], W = [];
+        for (var i = 0, p1, p2, p3, d12, d23, d31; i < m; i += 3) {
+            p1 = V[T[i]];
+            p2 = V[T[i + 1]];
+            p3 = V[T[i + 2]];
+            d12 = vec3.dist(p1, p2);
+            d23 = vec3.dist(p2, p3);
+            d31 = vec3.dist(p3, p1);
+
+            // Only update factor1 when the 3 points forms a valid triangle.
+            if (d12 > ERR && d23 > ERR && d31 > ERR) {
+                updateFactor1(factor1, T[i], p3, p1, p2);
+                updateFactor1(factor1, T[i + 1], p1, p2, p3);
+                updateFactor1(factor1, T[i + 2], p2, p3, p1);
+            }
+
+            updateFactor2(factor2, T[i], d12);
+            updateFactor2(factor2, T[i], d31);
+            updateFactor2(factor2, T[i + 1], d23);
+            updateFactor2(factor2, T[i + 1], d12);
+            updateFactor2(factor2, T[i + 2], d31);
+            updateFactor2(factor2, T[i + 2], d23);
+        }
+        for (var i = 0; i < n; i++) {
+            W[i] = factor1[i] * factor2[i];
+            if (!W[i]) W[i] = 0;
+        }
+        return W;
+    };
+    return {
+        generate: function (model, nx, ny, nz) {
+            var V = buildVertices(model.coordArray);
+            var W = grading(V, model.indexArray);
+            console.log('grade:', W);
+            var cluster = clustering(model.coordArray, nx, ny, nz);
+            console.log('cluster:', cluster);
+        },
+    };
+}();
