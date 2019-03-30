@@ -81,7 +81,8 @@ var LOD = function () {
                     level: l,
                     blend: {
                         level: l - 1,
-                        alpha: (b00 - a) / (b00 - b01),
+                        alpha0: Math.min(1.0, 2*(b00 - a) / (b00 - b01)),
+                        alpha1: Math.min(1.0, 2*(a - b01) / (b00 - b01)),
                     },
                 };
             }
@@ -93,7 +94,8 @@ var LOD = function () {
                     level: l,
                     blend: {
                         level: l + 1,
-                        alpha: (a - b11) / (b10 - b11),
+                        alpha0: Math.min(1.0, 2*(a - b11) / (b10 - b11)),
+                        alpha1: Math.min(1.0, 2*(b10 - a) / (b10 - b11)),
                     },
                 };
             }
