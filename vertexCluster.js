@@ -90,7 +90,6 @@ var VERTEX_CLUSTER = function () {
         return W;
     };
     var synthesis = function (V, N, UV, C, W) {
-        // TODO: implement
         var SV = [], SN = [], SUV = [], n = C.length;
         for (var i = 0, max; i < n; i++) {
             // find index of max weight
@@ -105,6 +104,52 @@ var VERTEX_CLUSTER = function () {
         }
         return { SV: SV, SN: SN, SUV: SUV };
     };
+    var getRepresentVertex = function (vertices, i) {
+        if (vertices[i] === undefined) vertices[i] = {id: i, edge: []};
+        return vertices[i];
+    };
+    var getRepresentEdge = function (v1, v2) {
+        var n = v1.edge.length;
+        for (var i = 0; i < n; i++) {
+            if (v1.edge[i].v2 === v2.id) return v1.edge[i]; 
+        }
+        var e = {v1: v1.id, v2: v2.id, tri: []};
+        v1.edge.push(e);
+        v2.edge.push(e);
+        return e;
+    };
+    var eliminate = function (T, R) {
+        var n = T.length, ST = [], vertices = [];
+        for (var i = 0, v1, v2, v3, e1, e2, e3, tri; i < n; i += 3) {
+            // get vertices
+            v1 = getRepresentVertex(vertices, R[T[i]]);
+            v2 = getRepresentVertex(vertices, R[T[i + 1]]);
+            v3 = getRepresentVertex(vertices, R[T[i + 2]]);
+
+            // triangle degenerates into an isolated points
+            if (v1 === v2 && v2 === v3) continue;
+            // triangle degenerates into a dangling edge
+            if (v1 === v2 || v2 === v3 || v1 === v3) continue;
+            
+            // get edges
+            e1 = getRepresentEdge(v1, v2);
+            e2 = getRepresentEdge(v2, v3);
+            e3 = getRepresentEdge(v3, v1);
+
+            // eliminate triangles
+            var dup = false;
+            for (var j = 0, m = e1.tri.length; !dup && j < m; j++) {
+                if (e1.tri[j] !== v3.id) continue;
+                dup = true;
+            }
+            if (dup) continue;
+            ST.push(v1.id, v2.id, v3.id);
+            e1.tri.push(v1.id, v2.id, v3.id);
+            e2.tri.push(v1.id, v2.id, v3.id);
+            e3.tri.push(v1.id, v2.id, v3.id);
+        }
+        return {ST: ST};
+    };
     return {
         generate: function (model, nx, ny, nz) {
             var V = buildVertices(model.coordArray);
@@ -113,7 +158,9 @@ var VERTEX_CLUSTER = function () {
             var cluster = clustering(model.coordArray, nx, ny, nz);
             // console.log('cluster:', cluster);
             var syn = synthesis(model.coordArray, model.normalArray, model.uvArray, cluster.C, W);
-            console.log('synthesis:', syn);
+            // console.log('synthesis:', syn);
+            var elimination = eliminate(model.indexArray, cluster.R);
+            console.log('elimination:', elimination);
         },
     };
 }();
