@@ -7,6 +7,10 @@ var DOM = function () {
         title: $('#title'),
         mapArrow: $('#map_arrow'),
 
+        // Navigation
+        navConfigTrans: $('#navigate_config_trans'),
+        navConfigRot: $('#navigate_config_rot'),
+
         // LOD info
         lodInfo: $('#lod_info'),
         furnitureId: $('#furniture_id'),
@@ -58,14 +62,21 @@ var DOM = function () {
         lodElement: $('.lod_element'),
         nonLodElement: $('.non_lod_element'),
 
+        loadNavigation: function () {
+            DOM.navConfigTrans.val(Math.log10(EVENTS.DELTA_TRANS));
+            DOM.navConfigRot.val(Math.log10(EVENTS.DELTA_ROT));
+        },
+
         load: function (option, camera, url) {
             var canvas = document.getElementById("myWebGLCanvas"); // create a js canvas
-            option.useLight = document.getElementById("UseLight").checked;
+            // option.useLight = document.getElementById("UseLight").checked;
             DOM.lodInfo.hide();
             DOM.lodConfigImportText.hide();
             DOM.lodConfigImportVC.hide();
             DOM.lodConfigImport.hide();
             DOM.lodConfigImportMethodFile.prop('checked', 'true');
+
+            DOM.loadNavigation();
             // DOM.mapArrow.hide();
             // url.lights = document.getElementById("LightsURL").value;
             // canvas.width = parseInt(document.getElementById("Width").value);

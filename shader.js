@@ -163,7 +163,7 @@ var CREATE_SHADER = function (canvas, option) {
                     gl.clearDepth(1.0); // use max when we clear the depth buffer
                     gl.enable(gl.DEPTH_TEST); // use hidden surface removal (with zbuffering)
                     
-            gl.enable(gl.BLEND);
+            gl.enable(gl.BLEND); // intentially use depth test while still render alpha blending
             gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA );
             // gl.disable(gl.DEPTH_TEST);
                 }

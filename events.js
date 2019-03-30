@@ -24,8 +24,8 @@ var EVENTS = function () {
     //     LOD.select(models.array);
     // }
     return {
-        DELTA_TRANS: 0.05,
-        DELTA_ROT: 0.08,
+        DELTA_TRANS: 0.1,
+        DELTA_ROT: 0.1,
         handleKeyDown: function (event) {
             currentlyPressedKeys[event.keyCode] = true;
 
@@ -155,6 +155,12 @@ var EVENTS = function () {
         handleMouseMove: function (event) {
             GAME.rotateBatteries(event.offsetX / DOM.canvas.width, event.offsetY / DOM.canvas.height);
         },
+        handleNavTransChange: function () {
+            EVENTS.DELTA_TRANS = Math.pow(10, parseFloat(DOM.navConfigTrans.val()));
+        },
+        handleNavRotChange: function () {
+            EVENTS.DELTA_ROT = Math.pow(10, parseFloat(DOM.navConfigRot.val()));
+        },
         handleSwitchMethodChange: function (s) {
             return function () {
                 var models = ROOMS.furniture;
@@ -241,7 +247,9 @@ var EVENTS = function () {
             document.onkeyup = EVENTS.handleKeyUp;
             // $(DOM.canvas).on('click', EVENTS.handleClick).mousemove(EVENTS.handleMouseMove);
 
-            // TODO: add event for switching methods
+            DOM.navConfigTrans.on('change', EVENTS.handleNavTransChange);
+            DOM.navConfigRot.on('change', EVENTS.handleNavRotChange);
+
             DOM.lodConfigSwitchDiscrete.on('click', EVENTS.handleSwitchMethodChange(LOD.SWITCH.DISCRETE));
             DOM.lodConfigSwitchBlend.on('click', EVENTS.handleSwitchMethodChange(LOD.SWITCH.ALPHA_BLEND));
             DOM.lodConfigSelectRange.on('click', EVENTS.handleSelectMethodChange(LOD.selectByRange));

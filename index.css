@@ -94,10 +94,14 @@
     font-family: "Agency FB";
 }
 
-#lod_config {
+#config_right {
     position: absolute;
     left: 1054px;
     top: 10px;
+}
+
+.nav_range {
+    width: 500px;
 }
 
 .numInput {

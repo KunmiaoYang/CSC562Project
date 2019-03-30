@@ -85,124 +85,144 @@
     n — toggle model view<br>
     c — toggle ceiling<br>
   </p>
-  <div id='lod_config' class='lod_element'>
-    <table>
-      <tr>
-        <td><b>LOD switching method:</b></td>
-        <td>
-          <input type="radio" id='lod_config_switch_discrete' name='lod_config_switch_method' value='discrete'>
-          Discrete switching
-        </td>
-        <td>
-          <input type="radio" id='lod_config_switch_blend' name='lod_config_switch_method' value='blend'>
-          Alpha blending switching
-        </td>
-      </tr>
-    </table>
-    <table>
-      <tr>
-        <td><b>LOD selection method:</b></td>
-        <td>
-          <input type="radio" id='lod_config_select_range' name='lod_config_select_method' value='range'>
-          Range based
-        </td>
-        <td>
-          <input type="radio" id='lod_config_select_area' name='lod_config_select_method' value='area'>
-          Area based
-        </td>
-        <td>
-          <input type="radio" id='lod_config_select_manual' name='lod_config_select_method' value='manual'>
-          Manual select
-        </td>
-      </tr>
-    </table>
-    <table>
-      <tr id='lod_config_range_bound'>
-        <div>
-          <td>
-            <b>Range based boundary: </b>
-          </td>
-          <td>
-            Boundary 0-1:
-            <input type="number" id='lod_config_range_00' class='numInput' min='0' step='1'> -
-            <input type="number" id='lod_config_range_01' class='numInput' min='0' step='1'>
-            Boundary 1-2:
-            <input type="number" id='lod_config_range_10' class='numInput' min='0' step='1'> -
-            <input type="number" id='lod_config_range_11' class='numInput' min='0' step='1'>
-            Boundary 2-3:
-            <input type="number" id='lod_config_range_20' class='numInput' min='0' step='1'> -
-            <input type="number" id='lod_config_range_21' class='numInput' min='0' step='1'>
-          </td>
-        </div>
-      </tr>
-      <tr id='lod_config_area_bound'>
-        <div>
-          <td>
-            <b>Area based boundary: </b>
-          </td>
-          <td>
-            Boundary 0-1:
-            <input type="number" id='lod_config_area_00' class='numInput' min='0' step='1'> -
-            <input type="number" id='lod_config_area_01' class='numInput' min='0' step='1'>
-            Boundary 1-2:
-            <input type="number" id='lod_config_area_10' class='numInput' min='0' step='1'> -
-            <input type="number" id='lod_config_area_11' class='numInput' min='0' step='1'>
-            Boundary 2-3:
-            <input type="number" id='lod_config_area_20' class='numInput' min='0' step='1'> -
-            <input type="number" id='lod_config_area_21' class='numInput' min='0' step='1'>
-          </td>
-        </div>
-      </tr>
-      <tr id='lod_config_manual_bound'>
-        <div>
-          <td>
-            <b>Manual select level: </b>
-          </td>
-          <td>
-            <input type="number" id='lod_config_manual_level' class='numInput' min='0' max='3' step='1'>
-          </td>
-        </div>
-      </tr>
-    </table>
-    <div id='lod_config_import'>
+  <div id='config_right'>
+    <div id="navigate">
+      <h3>Navigation configuration</h3>
       <table>
         <tr>
-          <td><b>Replace LOD model:</b></td>
+          <td><b>Moving speed:</b></td>
           <td>
-            <input type="radio" id='lod_config_import_method_file' name='lod_config_import_method' value="file">
-            From JSON file
+            <input id="navigate_config_trans" class="nav_range" type="range" min="-3" max="-0.4" step="0.2">
           </td>
+        </tr>
+        <tr>
+          <td><b>Rotation speed:</b></td>
           <td>
-            <input type="radio" id='lod_config_import_method_text' name='lod_config_import_method' value="text">
-            From JSON text
-          </td>
-          <td>
-            <input type="radio" id='lod_config_import_method_VC' name='lod_config_import_method' value="vertex">
-            Generate by vertex clustering
+            <input id="navigate_config_rot" class="nav_range" type="range" min="-3" max="-0.4" step="0.2">
           </td>
         </tr>
       </table>
-      <div id='lod_config_import_text'>
-        <textarea id="lod_config_import_text_code" cols="80" rows="40"></textarea><br>
-        <button onclick="EVENTS.handleImportFromText()">Submit</button>
-      </div>
-      <div id='lod_config_import_file'>
-        <input type="file" id="lod_config_import_file_path">
-        <button onclick="EVENTS.handleImportFromFile()">Submit</button>
-      </div>
-      <div id='lod_config_import_VC'>
-        <b>Cluster number</b>: X dimension:
-        <input type="number" id='lod_config_import_VC_nx' class='numInput' min='1' step='1'> 
-        Y dimension:
-        <input type="number" id='lod_config_import_VC_ny' class='numInput' min='1' step='1'>
-        Z dimension:
-        <input type="number" id='lod_config_import_VC_nz' class='numInput' min='1' step='1'>
-        <button onclick="EVENTS.handleImportVertexClustering()">Generate</button>
+    </div>
+    <div id='lod_config' class='lod_element'>
+      <h3>LOD configuration</h3>
+      <table>
+        <tr>
+          <td><b>LOD switching method:</b></td>
+          <td>
+            <input type="radio" id='lod_config_switch_discrete' name='lod_config_switch_method' value='discrete'>
+            Discrete switching
+          </td>
+          <td>
+            <input type="radio" id='lod_config_switch_blend' name='lod_config_switch_method' value='blend'>
+            Alpha blending switching
+          </td>
+        </tr>
+      </table>
+      <table>
+        <tr>
+          <td><b>LOD selection method:</b></td>
+          <td>
+            <input type="radio" id='lod_config_select_range' name='lod_config_select_method' value='range'>
+            Range based
+          </td>
+          <td>
+            <input type="radio" id='lod_config_select_area' name='lod_config_select_method' value='area'>
+            Area based
+          </td>
+          <td>
+            <input type="radio" id='lod_config_select_manual' name='lod_config_select_method' value='manual'>
+            Manual select
+          </td>
+        </tr>
+      </table>
+      <table>
+        <tr id='lod_config_range_bound'>
+          <div>
+            <td>
+              <b>Range based boundary: </b>
+            </td>
+            <td>
+              Boundary 0-1:
+              <input type="number" id='lod_config_range_00' class='numInput' min='0' step='1'> -
+              <input type="number" id='lod_config_range_01' class='numInput' min='0' step='1'>
+              Boundary 1-2:
+              <input type="number" id='lod_config_range_10' class='numInput' min='0' step='1'> -
+              <input type="number" id='lod_config_range_11' class='numInput' min='0' step='1'>
+              Boundary 2-3:
+              <input type="number" id='lod_config_range_20' class='numInput' min='0' step='1'> -
+              <input type="number" id='lod_config_range_21' class='numInput' min='0' step='1'>
+            </td>
+          </div>
+        </tr>
+        <tr id='lod_config_area_bound'>
+          <div>
+            <td>
+              <b>Area based boundary: </b>
+            </td>
+            <td>
+              Boundary 0-1:
+              <input type="number" id='lod_config_area_00' class='numInput' min='0' step='1'> -
+              <input type="number" id='lod_config_area_01' class='numInput' min='0' step='1'>
+              Boundary 1-2:
+              <input type="number" id='lod_config_area_10' class='numInput' min='0' step='1'> -
+              <input type="number" id='lod_config_area_11' class='numInput' min='0' step='1'>
+              Boundary 2-3:
+              <input type="number" id='lod_config_area_20' class='numInput' min='0' step='1'> -
+              <input type="number" id='lod_config_area_21' class='numInput' min='0' step='1'>
+            </td>
+          </div>
+        </tr>
+        <tr id='lod_config_manual_bound'>
+          <div>
+            <td>
+              <b>Manual select level: </b>
+            </td>
+            <td>
+              <input type="number" id='lod_config_manual_level' class='numInput' min='0' max='3' step='1'>
+            </td>
+          </div>
+        </tr>
+      </table>
+      <div id='lod_config_import'>
+        <table>
+          <tr>
+            <td><b>Replace LOD model:</b></td>
+            <td>
+              <input type="radio" id='lod_config_import_method_file' name='lod_config_import_method' value="file">
+              From JSON file
+            </td>
+            <td>
+              <input type="radio" id='lod_config_import_method_text' name='lod_config_import_method' value="text">
+              From JSON text
+            </td>
+            <td>
+              <input type="radio" id='lod_config_import_method_VC' name='lod_config_import_method' value="vertex">
+              Generate by vertex clustering
+            </td>
+          </tr>
+        </table>
+        <div id='lod_config_import_text'>
+          <textarea id="lod_config_import_text_code" cols="80" rows="40"></textarea><br>
+          <button onclick="EVENTS.handleImportFromText()">Submit</button>
+        </div>
+        <div id='lod_config_import_file'>
+          <input type="file" id="lod_config_import_file_path">
+          <button onclick="EVENTS.handleImportFromFile()">Submit</button>
+        </div>
+        <div id='lod_config_import_VC'>
+          <b>Cluster number</b>: X dimension:
+          <input type="number" id='lod_config_import_VC_nx' class='numInput' min='1' step='1'>
+          Y dimension:
+          <input type="number" id='lod_config_import_VC_ny' class='numInput' min='1' step='1'>
+          Z dimension:
+          <input type="number" id='lod_config_import_VC_nz' class='numInput' min='1' step='1'>
+          <button onclick="EVENTS.handleImportVertexClustering()">Generate</button>
+        </div>
       </div>
     </div>
   </div>
 
-  <button class="test" onclick="GAME.test()">Test</button>
+  <!-- <button class="test" onclick="GAME.test()">Test</button>
   <table class="config">
     <tr>
       <td></td>
@@ -243,7 +263,7 @@
   </table>
   <label class="config" for="LightsURL">Lights JSON URL</label>
   <input class="config" type="text" id="LightsURL"
-    value="https://kunmiaoyang.github.io/MissileCommand/model/lights.json" style="width: 400px;">
+    value="https://kunmiaoyang.github.io/MissileCommand/model/lights.json" style="width: 400px;"> -->
 
   <!--load sounds-->
   <audio id="sound_intro" loop controls>
