@@ -246,5 +246,5 @@ var CREATE_SHADER = function (canvas, option) {
 var SHADER = CREATE_SHADER(DOM.canvas, {id: 0, clear: [0.0, 0.0, 0.0, 1.0]});
 SHADER.wh = SHADER.gl.canvas.width*SHADER.gl.canvas.height;
 
-var TOP_SHADER = CREATE_SHADER(DOM.topCanvas, {id: 1, clear: [0.0, 0.0, 0.0, 0.6]});
+var TOP_SHADER = CREATE_SHADER(DOM.topCanvas, {id: 1, clear: [0.0, 0.0, 0.0, 1.0]});
 TOP_SHADER.hide = false;

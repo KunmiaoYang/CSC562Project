@@ -45,7 +45,8 @@ var LOD = function () {
                     level: l,
                     blend: {
                         level: l - 1,
-                        alpha: (model.dist - b00) / (b01 - b00),
+                        alpha0: Math.min(1.0, 2*(model.dist - b00) / (b01 - b00)),
+                        alpha1: Math.min(1.0, 2*(b01 - model.dist) / (b01 - b00)),
                     },
                 };
             }
@@ -57,7 +58,8 @@ var LOD = function () {
                     level: l,
                     blend: {
                         level: l + 1,
-                        alpha: (b11 - model.dist) / (b11 - b10),
+                        alpha0: Math.min(1.0, 2*(b11 - model.dist) / (b11 - b10)),
+                        alpha1: Math.min(1.0, 2*(model.dist - b10) / (b11 - b10)),
                     },
                 };
             }
@@ -198,12 +200,12 @@ var LOD = function () {
                 if (LODModel) models.push(LODModel);
                 if (model.lod.switch === SWITCH.ALPHA_BLEND) {
                     if (model.lod.blend === undefined) LOD.select([model]);
-                    if (LODModel) LODModel.alpha = model.lod.blend.alpha;
+                    if (LODModel) LODModel.alpha = model.lod.blend.alpha0;
                     LODModel = LOD.getLOD(model, model.lod.blend.level);
                     if (LODModel === undefined) return models;
                     if (model.lod.blend.level > model.lod.level) models.unshift(LODModel);
                     else models.push(LODModel);
-                    LODModel.alpha = 1 - model.lod.blend.alpha;
+                    LODModel.alpha = model.lod.blend.alpha1;
                 } else if (LODModel) LODModel.alpha = 1.0;
                 return models;
             }
