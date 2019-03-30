@@ -345,7 +345,7 @@ var ROOMS = function () {
                 )
                 room.furniture.push(model);
                 // room.array.push(model);
-                room.array.unshift(model);
+                room.array.push(model);
                 ROOMS.furniture.array.push(model);
                 map.cellMap[indexI][indexJ].array.push(model);
             }

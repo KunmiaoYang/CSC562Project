@@ -23,6 +23,7 @@ var CREATE_SHADER = function (canvas, option) {
         uniform material_struct uMaterial;
         uniform int uLightModel;
         uniform sampler2D uTexture;
+        uniform float uAlpha;
         
         varying vec3 vTransformedNormal;
         varying vec4 vPosition;
@@ -64,7 +65,7 @@ var CREATE_SHADER = function (canvas, option) {
                 // ambientColor = textureColor.rgb;
                 // diffuseColor = textureColor.rgb;
                 // gl_FragColor = textureColor;
-                gl_FragColor = vec4(rgb*textureColor.rgb, 1.0); // all fragments are white
+                gl_FragColor = vec4(rgb*textureColor.rgb, uAlpha); // all fragments are white
             } else {
                 gl_FragColor = vec4(rgb, 1); // all fragments are white
             }
@@ -162,8 +163,8 @@ var CREATE_SHADER = function (canvas, option) {
                     gl.clearDepth(1.0); // use max when we clear the depth buffer
                     gl.enable(gl.DEPTH_TEST); // use hidden surface removal (with zbuffering)
                     
-            // gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA );
-            // gl.enable(gl.BLEND);
+            gl.enable(gl.BLEND);
+            gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA );
             // gl.disable(gl.DEPTH_TEST);
                 }
             } // end try
@@ -226,6 +227,7 @@ var CREATE_SHADER = function (canvas, option) {
                         uniforms.doubleSideUniform = gl.getUniformLocation(this.shaderProgram, "uDoubleSide");
                         uniforms.textureUniform = gl.getUniformLocation(this.shaderProgram, "uTexture");
                         uniforms.materialUniform = MODELS.getMaterialUniformLocation(gl, this.shaderProgram, "uMaterial");
+                        uniforms.alpha = gl.getUniformLocation(this.shaderProgram, "uAlpha");
                         uniforms.lightUniformArray = [];
                         for (let i = 0; i < LIGHTS.array.length; i++) {
                             uniforms.lightUniformArray[i] = LIGHTS.getLightUniformLocation(gl, this.shaderProgram, "uLights[" + i + "]");

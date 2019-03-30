@@ -58,7 +58,7 @@ var MODELS = function () {
                 diffuse: gl.getUniformLocation(program, varName + ".diffuse"),
                 specular: gl.getUniformLocation(program, varName + ".specular"),
                 n: gl.getUniformLocation(program, varName + ".n"),
-                textureMode: gl.getUniformLocation(program, varName + ".textureMode")
+                textureMode: gl.getUniformLocation(program, varName + ".textureMode"),
             };
         },
         setMaterialUniform: function (gl, materialUniform, material) {

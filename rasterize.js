@@ -28,6 +28,7 @@ var RASTERIZE = function () {
                 MODELS.setMaterialUniform(gl, shader.uniforms.materialUniform, models[i].material);
                 gl.uniformMatrix4fv(shader.uniforms.mMatrixUniform, false, MODELS.calcModelMatrix(models[i]));
                 gl.uniformMatrix3fv(shader.uniforms.nMatrixUniform, false, mat3.normalFromMat4(mat3.create(), models[i].mMatrix));
+                gl.uniform1f(shader.uniforms.alpha, models[i].alpha === undefined? 1.0: models[i].alpha);
 
                 // vertex buffer: activate and feed into vertex shader
                 gl.bindBuffer(gl.ARRAY_BUFFER, models[i].vertexBuffer[shader.id]); // activate
