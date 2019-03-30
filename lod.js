@@ -13,6 +13,7 @@ var LOD = function () {
                 array: simpleModels,
                 level: -1,
                 r: r,
+                switch: SWITCH.DISCRETE,
                 select: LOD.selectByRange,
                 rangeBounds: [[4, 6], [9, 11], [14, 16]],
                 areaBounds: [[4000, 2000], [100, 80], [30, 20]],
@@ -24,6 +25,7 @@ var LOD = function () {
                     array: [],
                     level: prototype.lod.level,
                     r: prototype.lod.r,
+                    switch: prototype.lod.switch,
                     select: prototype.lod.select,
                     rangeBounds: prototype.lod.rangeBounds,
                     areaBounds: prototype.lod.areaBounds,
@@ -45,8 +47,8 @@ var LOD = function () {
                     level: l,
                     blend: {
                         level: l - 1,
-                        alpha0: Math.min(1.0, 2*(model.dist - b00) / (b01 - b00)),
-                        alpha1: Math.min(1.0, 2*(b01 - model.dist) / (b01 - b00)),
+                        alpha0: Math.min(1.0, 2 * (model.dist - b00) / (b01 - b00)),
+                        alpha1: Math.min(1.0, 2 * (b01 - model.dist) / (b01 - b00)),
                     },
                 };
             }
@@ -58,8 +60,8 @@ var LOD = function () {
                     level: l,
                     blend: {
                         level: l + 1,
-                        alpha0: Math.min(1.0, 2*(b11 - model.dist) / (b11 - b10)),
-                        alpha1: Math.min(1.0, 2*(model.dist - b10) / (b11 - b10)),
+                        alpha0: Math.min(1.0, 2 * (b11 - model.dist) / (b11 - b10)),
+                        alpha1: Math.min(1.0, 2 * (model.dist - b10) / (b11 - b10)),
                     },
                 };
             }
@@ -81,8 +83,8 @@ var LOD = function () {
                     level: l,
                     blend: {
                         level: l - 1,
-                        alpha0: Math.min(1.0, 2*(b00 - a) / (b00 - b01)),
-                        alpha1: Math.min(1.0, 2*(a - b01) / (b00 - b01)),
+                        alpha0: Math.min(1.0, 2 * (b00 - a) / (b00 - b01)),
+                        alpha1: Math.min(1.0, 2 * (a - b01) / (b00 - b01)),
                     },
                 };
             }
@@ -94,8 +96,8 @@ var LOD = function () {
                     level: l,
                     blend: {
                         level: l + 1,
-                        alpha0: Math.min(1.0, 2*(a - b11) / (b10 - b11)),
-                        alpha1: Math.min(1.0, 2*(b10 - a) / (b10 - b11)),
+                        alpha0: Math.min(1.0, 2 * (a - b11) / (b10 - b11)),
+                        alpha1: Math.min(1.0, 2 * (b10 - a) / (b10 - b11)),
                     },
                 };
             }
@@ -120,6 +122,12 @@ var LOD = function () {
                 } else {
                     DOM.lodInfoLevel.text('Level: ' + (level + 1));
                     DOM.lodConfigManualLevel.val(level + 1);
+                }
+
+                if (model.lod.switch === SWITCH.ALPHA_BLEND) {
+                    DOM.lodConfigSwitchBlend.prop('checked', 'true');
+                } else if (model.lod.switch === SWITCH.DISCRETE) {
+                    DOM.lodConfigSwitchDiscrete.prop('checked', 'true');
                 }
 
                 if (model.lod.select === LOD.selectByRange) {

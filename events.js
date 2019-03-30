@@ -155,6 +155,13 @@ var EVENTS = function () {
         handleMouseMove: function (event) {
             GAME.rotateBatteries(event.offsetX / DOM.canvas.width, event.offsetY / DOM.canvas.height);
         },
+        handleSwitchMethodChange: function (s) {
+            return function () {
+                var models = ROOMS.furniture;
+                models.array[models.selectId].lod.switch = s;
+                LOD.select(models.array);
+            };
+        },
         handleSelectMethodChange: function (select) {
             return function () {
                 var models = ROOMS.furniture;
@@ -234,6 +241,9 @@ var EVENTS = function () {
             document.onkeyup = EVENTS.handleKeyUp;
             // $(DOM.canvas).on('click', EVENTS.handleClick).mousemove(EVENTS.handleMouseMove);
 
+            // TODO: add event for switching methods
+            DOM.lodConfigSwitchDiscrete.on('click', EVENTS.handleSwitchMethodChange(LOD.SWITCH.DISCRETE));
+            DOM.lodConfigSwitchBlend.on('click', EVENTS.handleSwitchMethodChange(LOD.SWITCH.ALPHA_BLEND));
             DOM.lodConfigSelectRange.on('click', EVENTS.handleSelectMethodChange(LOD.selectByRange));
             DOM.lodConfigSelectArea.on('click', EVENTS.handleSelectMethodChange(LOD.selectByArea));
             DOM.lodConfigSelectManual.on('click', EVENTS.handleSelectMethodChange(LOD.selectManually));

@@ -20,6 +20,8 @@ var DOM = function () {
 
         // LOD config
         lodConfig: $('div#lod_config'),
+        lodConfigSwitchDiscrete: $('#lod_config_switch_discrete'),
+        lodConfigSwitchBlend: $('#lod_config_switch_blend'),
         lodConfigSelectRange: $('#lod_config_select_range'),
         lodConfigSelectArea: $('#lod_config_select_area'),
         lodConfigSelectManual: $('#lod_config_select_manual'),

@@ -88,6 +88,19 @@
   <div id='lod_config' class='lod_element'>
     <table>
       <tr>
+        <td><b>LOD switching method:</b></td>
+        <td>
+          <input type="radio" id='lod_config_switch_discrete' name='lod_config_switch_method' value='discrete'>
+          Discrete switching
+        </td>
+        <td>
+          <input type="radio" id='lod_config_switch_blend' name='lod_config_switch_method' value='blend'>
+          Alpha blending switching
+        </td>
+      </tr>
+    </table>
+    <table>
+      <tr>
         <td><b>LOD selection method:</b></td>
         <td>
           <input type="radio" id='lod_config_select_range' name='lod_config_select_method' value='range'>
