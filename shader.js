@@ -67,7 +67,7 @@ var CREATE_SHADER = function (canvas, option) {
                 // gl_FragColor = textureColor;
                 gl_FragColor = vec4(rgb*textureColor.rgb, uAlpha); // all fragments are white
             } else {
-                gl_FragColor = vec4(rgb, 1); // all fragments are white
+                gl_FragColor = vec4(rgb, uAlpha); // all fragments are white
             }
         }
         `;

@@ -3,6 +3,7 @@ var LOD = function () {
         DISCRETE: 0,
         ALPHA_BLEND: 1,
     };
+    var defaultBlend = { level: 4, alpha0: 1.0, alpha1: 0.0 };
     return {
         SWITCH: SWITCH,
         AREA_NEAR: 4000,
@@ -37,8 +38,7 @@ var LOD = function () {
         },
         selectByRange: function (model) {
             if (!model.lod) return -1;
-            var l = model.lod.level, n = model.lod.array.length,
-                defaultBlend = { level: 4, alpha: 1.0 };
+            var l = model.lod.level, n = model.lod.array.length;
             if (l >= 0) {
                 var b00 = model.lod.rangeBounds[l][0],
                     b01 = model.lod.rangeBounds[l][1];
@@ -74,7 +74,6 @@ var LOD = function () {
             var a = Math.PI * SHADER.wh * p * p;
             model.lod.p = p;
             model.lod.area = a;
-            var defaultBlend = { level: 4, alpha: 1.0 };
             if (l >= 0) {
                 var b00 = model.lod.areaBounds[l][0],
                     b01 = model.lod.areaBounds[l][1];
@@ -104,7 +103,7 @@ var LOD = function () {
             return { level: l, blend: defaultBlend };
         },
         selectManually: function (model) {
-            return model.lod.level;
+            return { level: model.lod.level, blend: defaultBlend };
         },
         updateLodInfo: function (furniture) {
             DOM.furnitureId.text('Model ID: ' + furniture.selectId);
