@@ -186,11 +186,21 @@ var EVENTS = function () {
         },
         handleMethodImportFromText: function () {
             DOM.lodConfigImportFile.hide();
+            DOM.lodConfigImportVC.hide();
             DOM.lodConfigImportText.show();
         },
         handleMethodImportFromFile: function () {
             DOM.lodConfigImportText.hide();
+            DOM.lodConfigImportVC.hide();
             DOM.lodConfigImportFile.show();
+        },
+        handleMethodImportVertexClustering: function () {
+            DOM.lodConfigImportFile.hide();
+            DOM.lodConfigImportText.hide();
+            DOM.lodConfigImportVC.show();
+            DOM.lodConfigImportVCNx.val(VERTEX_CLUSTER.NX);
+            DOM.lodConfigImportVCNy.val(VERTEX_CLUSTER.NY);
+            DOM.lodConfigImportVCNz.val(VERTEX_CLUSTER.NZ);
         },
         handleImportFromText: function () {
             var json = JSON.parse(DOM.lodConfigImportTextCode.val());
@@ -207,7 +217,17 @@ var EVENTS = function () {
                     var model = JSON_MODEL.loadTriangleSets([SHADER, TOP_SHADER], [json], false)[0];
                     LOD.importCurLOD(model);
                 };
+            } else {
+                alert('Invalid model file!');
             }
+        },
+        handleImportVertexClustering: function () {
+            var json = VERTEX_CLUSTER.generate(ROOMS.getCurrentFurniture(),
+                DOM.lodConfigImportVCNx.val(),
+                DOM.lodConfigImportVCNy.val(),
+                DOM.lodConfigImportVCNz.val());
+            var model = JSON_MODEL.loadTriangleSets([SHADER, TOP_SHADER], [json], false)[0];
+            LOD.importCurLOD(model);
         },
         setupEvent: function () {
             document.onkeydown = EVENTS.handleKeyDown;
@@ -233,6 +253,7 @@ var EVENTS = function () {
 
             DOM.lodConfigImportMethodText.on('click', EVENTS.handleMethodImportFromText);
             DOM.lodConfigImportMethodFile.on('click', EVENTS.handleMethodImportFromFile);
+            DOM.lodConfigImportMethodVC.on('click', EVENTS.handleMethodImportVertexClustering);
         }
     };
 }();

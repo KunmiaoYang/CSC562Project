@@ -42,10 +42,15 @@ var DOM = function () {
         lodConfigImport: $('#lod_config_import'),
         lodConfigImportMethodText: $('#lod_config_import_method_text'),
         lodConfigImportMethodFile: $('#lod_config_import_method_file'),
+        lodConfigImportMethodVC: $('#lod_config_import_method_VC'),
         lodConfigImportText: $('#lod_config_import_text'),
         lodConfigImportTextCode: $('#lod_config_import_text_code'),
         lodConfigImportFile: $('#lod_config_import_file'),
         lodConfigImportFilePath: $('#lod_config_import_file_path'),
+        lodConfigImportVC: $('#lod_config_import_VC'),
+        lodConfigImportVCNx: $('#lod_config_import_VC_nx'),
+        lodConfigImportVCNy: $('#lod_config_import_VC_ny'),
+        lodConfigImportVCNz: $('#lod_config_import_VC_nz'),
 
         // LOD class
         lodElement: $('.lod_element'),
@@ -56,6 +61,7 @@ var DOM = function () {
             option.useLight = document.getElementById("UseLight").checked;
             DOM.lodInfo.hide();
             DOM.lodConfigImportText.hide();
+            DOM.lodConfigImportVC.hide();
             DOM.lodConfigImport.hide();
             DOM.lodConfigImportMethodFile.prop('checked', 'true');
             // DOM.mapArrow.hide();

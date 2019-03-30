@@ -151,6 +151,7 @@ var VERTEX_CLUSTER = function () {
         return {ST: ST};
     };
     return {
+        NX: 10, NY: 10, NZ: 10,
         generate: function (model, nx, ny, nz) {
             var V = buildVertices(model.coordArray);
             var W = grading(V, model.indexArray);
@@ -158,9 +159,9 @@ var VERTEX_CLUSTER = function () {
             var cluster = clustering(model.coordArray, nx, ny, nz);
             // console.log('cluster:', cluster);
             var syn = synthesis(model.coordArray, model.normalArray, model.uvArray, cluster.C, W);
-            console.log('synthesis:', syn);
+            // console.log('synthesis:', syn);
             var elimination = eliminate(model.indexArray, cluster.R);
-            console.log('elimination:', elimination);
+            // console.log('elimination:', elimination);
             return {
                 material: model.material,
                 vertices: syn.SV,
