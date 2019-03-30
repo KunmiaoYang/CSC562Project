@@ -98,9 +98,9 @@ var VERTEX_CLUSTER = function () {
                 if (W[C[i][j]] > W[id]) id = C[i][j];
             }
             // synthesis
-            SV.push(V[3 * id], V[3 * id + 1], V[3 * id + 2]);
-            SN.push(N[3 * id], N[3 * id + 1], N[3 * id + 2]);
-            SUV.push(UV[2 * id], UV[2 * id + 1]);
+            SV.push([V[3 * id], V[3 * id + 1], V[3 * id + 2]]);
+            SN.push([N[3 * id], N[3 * id + 1], N[3 * id + 2]]);
+            SUV.push([UV[2 * id], UV[2 * id + 1]]);
         }
         return { SV: SV, SN: SN, SUV: SUV };
     };
@@ -143,7 +143,7 @@ var VERTEX_CLUSTER = function () {
                 dup = true;
             }
             if (dup) continue;
-            ST.push(v1.id, v2.id, v3.id);
+            ST.push([v1.id, v2.id, v3.id]);
             e1.tri.push(v1.id, v2.id, v3.id);
             e2.tri.push(v1.id, v2.id, v3.id);
             e3.tri.push(v1.id, v2.id, v3.id);
@@ -158,9 +158,16 @@ var VERTEX_CLUSTER = function () {
             var cluster = clustering(model.coordArray, nx, ny, nz);
             // console.log('cluster:', cluster);
             var syn = synthesis(model.coordArray, model.normalArray, model.uvArray, cluster.C, W);
-            // console.log('synthesis:', syn);
+            console.log('synthesis:', syn);
             var elimination = eliminate(model.indexArray, cluster.R);
             console.log('elimination:', elimination);
+            return {
+                material: model.material,
+                vertices: syn.SV,
+                normals: syn.SN,
+                uvs: syn.SUV,
+                triangles: elimination.ST,
+            };
         },
     };
 }();
