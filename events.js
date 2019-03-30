@@ -16,13 +16,13 @@ var EVENTS = function () {
             LOD.updateLodInfo(models);
         }
     };
-    var toggleSelection = function (models) {
-        var model = models.array[models.selectId];
-        if (!model || !model.lod) return;
-        if (model.lod.select === LOD.selectByArea) model.lod.select = LOD.selectByRange;
-        else model.lod.select = LOD.selectByArea;
-        LOD.select(models.array);
-    }
+    // var toggleSelection = function (models) {
+    //     var model = models.array[models.selectId];
+    //     if (!model || !model.lod) return;
+    //     if (model.lod.select === LOD.selectByArea) model.lod.select = LOD.selectByRange;
+    //     else model.lod.select = LOD.selectByArea;
+    //     LOD.select(models.array);
+    // }
     return {
         DELTA_TRANS: 0.05,
         DELTA_ROT: 0.08,

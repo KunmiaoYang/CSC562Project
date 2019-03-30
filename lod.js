@@ -1,5 +1,10 @@
 var LOD = function () {
+    var SWITCH = {
+        DISCRETE: 0,
+        ALPHA_BLEND: 1,
+    };
     return {
+        SWITCH: SWITCH,
         AREA_NEAR: 4000,
         AREA_FAR: 80,
         AREA_DISPEAR: 20,
@@ -9,7 +14,7 @@ var LOD = function () {
                 level: -1,
                 r: r,
                 select: LOD.selectByRange,
-                rangeBounds: [[3, 7], [8, 12], [13, 17]],
+                rangeBounds: [[4, 6], [9, 11], [14, 16]],
                 areaBounds: [[4000, 2000], [100, 80], [30, 20]],
             };
         },
@@ -30,10 +35,33 @@ var LOD = function () {
         },
         selectByRange: function (model) {
             if (!model.lod) return -1;
-            var l = model.lod.level, n = model.lod.array.length;
-            if (l >= 0 && model.dist < model.lod.rangeBounds[l][0]) return l - 1;
-            if (l < n && model.dist > model.lod.rangeBounds[l + 1][1]) return l + 1;
-            return l;
+            var l = model.lod.level, n = model.lod.array.length,
+                defaultBlend = { level: 4, alpha: 1.0 };
+            if (l >= 0) {
+                var b00 = model.lod.rangeBounds[l][0],
+                    b01 = model.lod.rangeBounds[l][1];
+                if (model.dist < b00) return { level: l - 1, blend: defaultBlend };
+                if (model.dist < b01) return {
+                    level: l,
+                    blend: {
+                        level: l - 1,
+                        alpha: (model.dist - b00) / (b01 - b00),
+                    },
+                };
+            }
+            if (l < n) {
+                var b10 = model.lod.rangeBounds[l + 1][0],
+                    b11 = model.lod.rangeBounds[l + 1][1];
+                if (model.dist > b11) return { level: l + 1, blend: defaultBlend };
+                if (model.dist > b10) return {
+                    level: l,
+                    blend: {
+                        level: l + 1,
+                        alpha: (b11 - model.dist) / (b11 - b10),
+                    },
+                };
+            }
+            return { level: l, blend: defaultBlend };
         },
         selectByArea: function (model) {
             if (!model.lod) return -1;
@@ -42,9 +70,32 @@ var LOD = function () {
             var a = Math.PI * SHADER.wh * p * p;
             model.lod.p = p;
             model.lod.area = a;
-            if (l >= 0 && a > model.lod.areaBounds[l][0]) return l - 1;
-            if (l < n && a < model.lod.areaBounds[l + 1][1]) return l + 1;
-            return l;
+            var defaultBlend = { level: 4, alpha: 1.0 };
+            if (l >= 0) {
+                var b00 = model.lod.areaBounds[l][0],
+                    b01 = model.lod.areaBounds[l][1];
+                if (a > b00) return { level: l - 1, blend: defaultBlend };
+                if (a > b01) return {
+                    level: l,
+                    blend: {
+                        level: l - 1,
+                        alpha: (b00 - a) / (b00 - b01),
+                    },
+                };
+            }
+            if (l < n) {
+                var b10 = model.lod.areaBounds[l + 1][0],
+                    b11 = model.lod.areaBounds[l + 1][1];
+                if (a < b11) return { level: l + 1, blend: defaultBlend };
+                if (a < b10) return {
+                    level: l,
+                    blend: {
+                        level: l + 1,
+                        alpha: (a - b11) / (b10 - b11),
+                    },
+                };
+            }
+            return { level: l, blend: defaultBlend };
         },
         selectManually: function (model) {
             return model.lod.level;
@@ -117,28 +168,52 @@ var LOD = function () {
             }
         },
         select: function (models) {
-            for (var i = 0, n = models.length; i < n; i++) {
+            for (var i = 0, n = models.length, selection; i < n; i++) {
                 models[i].fromCamera = vec3.sub(vec3.create(), models[i].xyz, CAMERA.xyz);
                 models[i].dist = vec3.len(models[i].fromCamera);
                 if (!models[i].lod) continue;
-                models[i].lod.level = models[i].lod.select(models[i]);
+                selection = models[i].lod.select(models[i]);
+                models[i].lod.level = selection.level;
+                if (models[i].lod.switch === SWITCH.ALPHA_BLEND && selection.blend)
+                    models[i].lod.blend = selection.blend;
+                else models[i].lod.blend = undefined;
             }
             LOD.updateLodInfo(ROOMS.furniture);
         },
-        filter: function (model) {
+        getLOD: function (model, level) {
             if (model.lod) {
-                if (model.lod.level >= model.lod.array.length)
+                if (level >= model.lod.array.length)
                     return undefined;
-                if (model.lod.level >= 0)
-                    return model.lod.array[model.lod.level];
+                if (level >= 0)
+                    return model.lod.array[level];
             }
             return model;
+        },
+        getCurLOD: function (model) {
+            return model.lod ? LOD.getLOD(model, model.lod.level) : model;
+        },
+        filter: function (model) {
+            if (model.lod) {
+                var models = [], LODModel = LOD.getCurLOD(model);
+                if (LODModel) models.push(LODModel);
+                if (model.lod.switch === SWITCH.ALPHA_BLEND) {
+                    if (model.lod.blend === undefined) LOD.select([model]);
+                    if (LODModel) LODModel.alpha = model.lod.blend.alpha;
+                    LODModel = LOD.getLOD(model, model.lod.blend.level);
+                    if (LODModel === undefined) return models;
+                    if (model.lod.blend.level > model.lod.level) models.unshift(LODModel);
+                    else models.push(LODModel);
+                    LODModel.alpha = 1 - model.lod.blend.alpha;
+                } else if (LODModel) LODModel.alpha = 1.0;
+                return models;
+            }
+            return [model];
         },
         addLOD: function (model) {
             var r = 0, v = model.coordArray.length / 3;
             var triCenter = vec3.create();
             for (let i = 0; i < model.coordArray.length; i++) {
-                triCenter[i%3] += model.coordArray[i];
+                triCenter[i % 3] += model.coordArray[i];
             }
             vec3.scale(triCenter, triCenter, 1.0 / v);
             for (var i = 0; i < v; i++) {
@@ -157,7 +232,7 @@ var LOD = function () {
             LOD.updateLodInfo(ROOMS.furniture);
         },
         exportCurLOD: function () {
-            var model = LOD.filter(ROOMS.getCurrentFurniture());
+            var model = LOD.getCurLOD(ROOMS.getCurrentFurniture());
             if (model) {
                 JSON_MODEL.exportModel(model);
             } else {
