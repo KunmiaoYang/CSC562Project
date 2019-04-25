@@ -235,6 +235,14 @@ var EVENTS = function () {
             }
         },
         handleImportVertexClustering: function () {
+            var json = VERTEX_CLUSTER.generate(ROOMS.getCurrentFurniture(),
+                DOM.lodConfigImportVCNx.val(),
+                DOM.lodConfigImportVCNy.val(),
+                DOM.lodConfigImportVCNz.val());
+            var model = JSON_MODEL.loadTriangleSets([SHADER, TOP_SHADER], [json], false)[0];
+            LOD.importCurLOD(model);
+        },
+        handleImportVertexClusteringSplit: function () {
             var json = VERTEX_CLUSTER.generateSplit(ROOMS.getCurrentFurniture(),
                 DOM.lodConfigImportVCNx.val(),
                 DOM.lodConfigImportVCNy.val(),

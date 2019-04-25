@@ -90,7 +90,7 @@ var ROOMS = function () {
         },
     };
     var city = {
-        pos: vec3.fromValues(0.5, 0.2, 0.5),
+        pos: vec3.fromValues(0.5, 0.18, 0.5),
         material: {
             ambient: [0, 0, 0], diffuse: [0.3, 0.3, 0.7], specular: [1.0, 1.0, 1.0], n: 10, textureMode: 0
         },

@@ -210,13 +210,18 @@
           <button onclick="EVENTS.handleImportFromFile()">Submit</button>
         </div>
         <div id='lod_config_import_VC'>
-          <b>Cluster number</b>: X dimension:
-          <input type="number" id='lod_config_import_VC_nx' class='numInput' min='1' step='1'>
-          Y dimension:
-          <input type="number" id='lod_config_import_VC_ny' class='numInput' min='1' step='1'>
-          Z dimension:
-          <input type="number" id='lod_config_import_VC_nz' class='numInput' min='1' step='1'>
-          <button onclick="EVENTS.handleImportVertexClustering()">Generate</button>
+          <div>
+            <b>Cluster number</b>: X dimension:
+            <input type="number" id='lod_config_import_VC_nx' class='numInput' min='1' step='1'>
+            Y dimension:
+            <input type="number" id='lod_config_import_VC_ny' class='numInput' min='1' step='1'>
+            Z dimension:
+            <input type="number" id='lod_config_import_VC_nz' class='numInput' min='1' step='1'>
+          </div>
+          <div>
+            <button onclick="EVENTS.handleImportVertexClustering()">Generate</button>
+            <button onclick="EVENTS.handleImportVertexClusteringSplit()">Generate with normal split</button>
+          </div>
         </div>
       </div>
     </div>
