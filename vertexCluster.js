@@ -198,7 +198,7 @@ var VERTEX_CLUSTER = function () {
         return {ST: ST, SV: SVSplit};
     };
     return {
-        NX: 10, NY: 10, NZ: 10,
+        NX: 20, NY: 20, NZ: 20,
         generate: function (model, nx, ny, nz) {
             var V = buildVertices(model.coordArray);
             var W = grading(V, model.indexArray);
