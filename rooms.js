@@ -15,25 +15,26 @@ var ROOMS = function () {
             ["s", 0, 0, 0, 0, 0, "s", 1, 1, 1, 1, 1, "s"],
             ["s", 0, 0, 0, 0, 0, "p", 1, 1, 1, 1, 1, "s"],
             ["s", 0, 0, 0, 0, 0, "s", 1, 1, 1, 1, 1, "s"],
-            ["s", 0, 0, 0, 0, 0, "s", "s", "p", "s", "p", "s", "s"],
-            ["s", 0, 0, 0, 0, 0, "s", 2, 2, 2, 2, 2, "s"],
-            ["s", 0, 0, 0, 0, 0, "p", 2, 2, 2, 2, 2, "s"],
-            ["s", 0, 0, 0, 0, 0, "s", 2, 2, 2, 2, 2, "s"],
-            ["s", 0, 0, 0, 0, 0, "p", 2, 2, 2, 2, 2, "s"],
-            ["s", 0, 0, 0, 0, 0, "s", 2, 2, 2, 2, 2, "s"],
-            ["s", 0, 0, 0, 0, 0, "s", "s", "s", "s", "s", "s", "s"],
-            ["s", 0, 0, 0, 0, 0, "s"],
-            ["s", 0, 0, 0, 0, 0, "s"],
-            ["s", 0, 0, 0, 0, 0, "s"],
-            ["s", 0, 0, 0, 0, 0, "s"],
-            ["s", 0, 0, 0, 0, 0, "s"],
-            ["s", 0, 0, 0, 0, 0, "s"],
-            ["s", 0, 0, 0, 0, 0, "s"],
-            ["s", 0, 0, 0, 0, 0, "s"],
-            ["s", 0, 0, 0, 0, 0, "s"],
-            ["s", 0, 0, 0, 0, 0, "s"],
-            ["s", 0, 0, 0, 0, 0, "s"],
-            ["s", "s", "s", "s", "s", "s", "s"],
+            ["s", 0, 0, 0, 0, 0, "s", 1, 1, 1, 1, 1, "s"],
+            ["s", 0, 0, 0, 0, 0, "s", 1, 1, 1, 1, 1, "s"],
+            ["s", 0, 0, 0, 0, 0, "s", 1, 1, 1, 1, 1, "s"],
+            ["s", 0, 0, 0, 0, 0, "s", 1, 1, 1, 1, 1, "s"],
+            ["s", 0, 0, 0, 0, 0, "s", 1, 1, 1, 1, 1, "s"],
+            ["s", 0, 0, 0, 0, 0, "s", 1, 1, 1, 1, 1, "s"],
+            ["s", 0, 0, 0, 0, 0, "p", 1, 1, 1, 1, 1, "s"],
+            ["s", 0, 0, 0, 0, 0, "s", 1, 1, 1, 1, 1, "s"],
+            ["s", 0, 0, 0, 0, 0, "s", 1, 1, 1, 1, 1, "s"],
+            ["s", 0, 0, 0, 0, 0, "s", 1, 1, 1, 1, 1, "s"],
+            ["s", 0, 0, 0, 0, 0, "s", 1, 1, 1, 1, 1, "s"],
+            ["s", 0, 0, 0, 0, 0, "s", 1, 1, 1, 1, 1, "s"],
+            ["s", 0, 0, 0, 0, 0, "s", 1, 1, 1, 1, 1, "s"],
+            ["s", 0, 0, 0, 0, 0, "s", 1, 1, 1, 1, 1, "s"],
+            ["s", 0, 0, 0, 0, 0, "s", 1, 1, 1, 1, 1, "s"],
+            ["s", 0, 0, 0, 0, 0, "s", 1, 1, 1, 1, 1, "s"],
+            ["s", 0, 0, 0, 0, 0, "s", 1, 1, 1, 1, 1, "s"],
+            ["s", 0, 0, 0, 0, 0, "s", 1, 1, 1, 1, 1, "s"],
+            ["s", 0, 0, 0, 0, 0, "p", 1, 1, 1, 1, 1, "s"],
+            ["s", "s", "s", "s", "s", "s", "s", "s", "s", "s", "s", "s", "s"],
         ],
         "furniture": [
             [0, 0, 0, "sphere", 2],
@@ -42,7 +43,11 @@ var ROOMS = function () {
             [0, 3, 0, "sphere", 2],
             [0, 4, 0, "sphere", 2],
             // [1, 4, 4, "triangleset", 0],
-            [0, 3, 2, "standard", 0],
+            [1, 0, 0, "standard", 0],
+            [1, 1, 0, "standard", 0],
+            [1, 2, 0, "standard", 0],
+            [1, 3, 0, "standard", 1],
+            [1, 4, 0, "standard", 1],
             // [1, 0, 4, "standard", 1],
         ],
     };
@@ -398,14 +403,14 @@ var ROOMS = function () {
                 model.mark = city.mark;
                 ROOMS.prototype.furniture.standard[0] = model;
             });
-            // SKECHUP_MODEL.loadModel(shaders, URL.batteryModel, function (model) {
-            //     model.material = battery.material;
-            //     model.rMatrix = battery.scaleMatrix;
-            //     model.tMatrix = mat4.fromTranslation(mat4.create(), battery.pos);
-            //     model.animation = battery.animation;
-            //     model.mark = battery.mark;
-            //     ROOMS.prototype.furniture.standard[1] = model;
-            // });
+            SKECHUP_MODEL.loadModel(shaders, URL.batteryModel, function (model) {
+                model.material = battery.material;
+                model.rMatrix = battery.scaleMatrix;
+                model.tMatrix = mat4.fromTranslation(mat4.create(), battery.pos);
+                model.animation = battery.animation;
+                model.mark = battery.mark;
+                ROOMS.prototype.furniture.standard[1] = model;
+            });
 
             // ****************** TEST ******************
             // MODELS.array.push(ROOMS.prototype.furniture.triangleset[2]);

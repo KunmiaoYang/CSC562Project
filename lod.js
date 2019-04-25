@@ -113,6 +113,7 @@ var LOD = function () {
             DOM.furniturePosZ.text('z: ' + model.tMatrix[14].toFixed(3));
             DOM.furnitureDist.text('Dist: ' + model.dist.toFixed(3));
             if (model.lod) {
+                // Update level info
                 var level = model.lod.level;
                 DOM.nonLodElement.hide();
                 DOM.lodElement.show('fade');
@@ -123,6 +124,7 @@ var LOD = function () {
                     DOM.lodConfigManualLevel.val(level + 1);
                 }
 
+                // Update triangle info
                 var curModel = LOD.getLOD(model, level);
                 if (curModel === undefined) {
                     DOM.lodInfoTriangles.text('0');
@@ -130,12 +132,14 @@ var LOD = function () {
                     DOM.lodInfoTriangles.text(curModel.triBufferSize/3);
                 }
 
+                // Update switch method configuration
                 if (model.lod.switch === SWITCH.ALPHA_BLEND) {
                     DOM.lodConfigSwitchBlend.prop('checked', 'true');
                 } else if (model.lod.switch === SWITCH.DISCRETE) {
                     DOM.lodConfigSwitchDiscrete.prop('checked', 'true');
                 }
 
+                // Update select method configuration
                 if (model.lod.select === LOD.selectByRange) {
                     DOM.lodInfoSelect.text('Range based');
                     DOM.furnitureArea.text('');
@@ -271,6 +275,7 @@ var LOD = function () {
                     LODModel.rMatrix = model.rMatrix;
                     LODModel.xyz = vec3.fromValues(LODModel.tMatrix[12], LODModel.tMatrix[13], LODModel.tMatrix[14]);
                     model.lod.array[model.lod.level] = LODModel;
+                    LOD.updateLodInfo(ROOMS.furniture);
                 }
             } else {
                 alert("This model doesn't contain LOD!");
