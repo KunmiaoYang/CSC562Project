@@ -20,6 +20,7 @@ var DOM = function () {
         furniturePosZ: $('#furniture_posZ'),
         furnitureDist: $('#furniture_dist'),
         furnitureArea: $('#furniture_area'),
+        lodInfoTriangles: $('#lod_info_triangles'),
         lodInfoSelect: $('#lod_info_select'),
 
         // LOD config

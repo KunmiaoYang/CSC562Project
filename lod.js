@@ -123,6 +123,13 @@ var LOD = function () {
                     DOM.lodConfigManualLevel.val(level + 1);
                 }
 
+                var curModel = LOD.getLOD(model, level);
+                if (curModel === undefined) {
+                    DOM.lodInfoTriangles.text('0');
+                } else {
+                    DOM.lodInfoTriangles.text(curModel.triBufferSize/3);
+                }
+
                 if (model.lod.switch === SWITCH.ALPHA_BLEND) {
                     DOM.lodConfigSwitchBlend.prop('checked', 'true');
                 } else if (model.lod.switch === SWITCH.DISCRETE) {
