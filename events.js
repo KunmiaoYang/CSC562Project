@@ -235,7 +235,7 @@ var EVENTS = function () {
             }
         },
         handleImportVertexClustering: function () {
-            var json = VERTEX_CLUSTER.generate(ROOMS.getCurrentFurniture(),
+            var json = VERTEX_CLUSTER.generateSplit(ROOMS.getCurrentFurniture(),
                 DOM.lodConfigImportVCNx.val(),
                 DOM.lodConfigImportVCNy.val(),
                 DOM.lodConfigImportVCNz.val());

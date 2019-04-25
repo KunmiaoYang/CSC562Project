@@ -7,6 +7,16 @@ var VERTEX_CLUSTER = function () {
         vec3.normalize(v2, v2);
         return vec3.dot(v1, v2);
     };
+    var reshape = function (arr, dim) {
+        var vec = [];
+        for (var i = 0, n = arr.length; i < n; i += dim) {
+            var row = [];
+            for (var j = 0; j < dim; j++)
+                row[j] = arr[i + j];
+            vec.push(row);
+        }
+        return vec;
+    };
     // Refer to "Multi-resolution 3D Approximations for Rendering Complex Scenes"
     var clustering = function (V, nx, ny, nz) {
         var n = V.length,
@@ -150,6 +160,43 @@ var VERTEX_CLUSTER = function () {
         }
         return {ST: ST};
     };
+    var eliminateSplit = function (T, R, SV, coord) {
+        var n = T.length, ST = [], vertices = [], SVSplit = coord.concat();
+        for (var i = 0, v1, v2, v3, e1, e2, e3, tri; i < n; i += 3) {
+            // get vertices
+            v1 = getRepresentVertex(vertices, R[T[i]]);
+            v2 = getRepresentVertex(vertices, R[T[i + 1]]);
+            v3 = getRepresentVertex(vertices, R[T[i + 2]]);
+
+            // triangle degenerates into an isolated points
+            if (v1 === v2 && v2 === v3) continue;
+            // triangle degenerates into a dangling edge
+            if (v1 === v2 || v2 === v3 || v1 === v3) continue;
+            
+            // get edges
+            e1 = getRepresentEdge(v1, v2);
+            e2 = getRepresentEdge(v2, v3);
+            e3 = getRepresentEdge(v3, v1);
+
+            // eliminate triangles
+            var dup = false;
+            for (var j = 0, m = e1.tri.length; !dup && j < m; j++) {
+                if (e1.tri[j] !== v3.id) continue;
+                dup = true;
+            }
+            if (dup) continue;
+
+            ST.push([T[i], T[i + 1], T[i + 2]]);
+            e1.tri.push(v1.id, v2.id, v3.id);
+            e2.tri.push(v1.id, v2.id, v3.id);
+            e3.tri.push(v1.id, v2.id, v3.id);
+
+            SVSplit[T[i]] = SV[v1.id];
+            SVSplit[T[i + 1]] = SV[v2.id];
+            SVSplit[T[i + 2]] = SV[v3.id];
+        }
+        return {ST: ST, SV: SVSplit};
+    };
     return {
         NX: 10, NY: 10, NZ: 10,
         generate: function (model, nx, ny, nz) {
@@ -167,6 +214,24 @@ var VERTEX_CLUSTER = function () {
                 vertices: syn.SV,
                 normals: syn.SN,
                 uvs: syn.SUV,
+                triangles: elimination.ST,
+            };
+        },
+        generateSplit: function (model, nx, ny, nz) {
+            var V = buildVertices(model.coordArray);
+            var W = grading(V, model.indexArray);
+            // console.log('grade:', W);
+            var cluster = clustering(model.coordArray, nx, ny, nz);
+            // console.log('cluster:', cluster);
+            var syn = synthesis(model.coordArray, model.normalArray, model.uvArray, cluster.C, W);
+            // console.log('synthesis:', syn);
+            var elimination = eliminateSplit(model.indexArray, cluster.R, syn.SV, model.coordArray);
+            // console.log('elimination:', elimination);
+            return {
+                material: model.material,
+                vertices: elimination.SV,
+                normals: reshape(model.normalArray, 3),
+                uvs: reshape(model.uvArray, 2),
                 triangles: elimination.ST,
             };
         },

@@ -212,7 +212,8 @@ var LOD = function () {
                     if (LODModel) LODModel.alpha = model.lod.blend.alpha0;
                     LODModel = LOD.getLOD(model, model.lod.blend.level);
                     if (LODModel === undefined) return models;
-                    if (model.lod.blend.level > model.lod.level) models.unshift(LODModel);
+                    // if (model.lod.blend.level > model.lod.level) models.unshift(LODModel);
+                    if (model.lod.blend.alpha0 < model.lod.blend.alpha1) models.unshift(LODModel);
                     else models.push(LODModel);
                     LODModel.alpha = model.lod.blend.alpha1;
                 } else if (LODModel) LODModel.alpha = 1.0;
